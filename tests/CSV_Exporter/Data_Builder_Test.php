@@ -199,5 +199,47 @@ class Data_Builder_Test extends WP_UnitTestCase {
 		remove_all_actions( 'simple_csv_exporter_data_builder_pre_get_posts' );
 	}
 
+	/**
+	 * @test for `simple_csv_exporter_data_builder_get_post_meta_fields` filter.
+	 */
+	public function test_filter_simple_csv_exporter_data_builder_get_post_meta_fields() {
+		add_filter(
+			'simple_csv_exporter_data_builder_get_post_meta_fields',
+			function ( array $fields ) {
+				foreach (
+					array(
+						'flag_for_test_1',
+						'flag_for_test_2',
+					) as $key
+				) {
+					if ( isset( $fields[ $key ] ) ) {
+						$fields[ $key ] = ! empty( $fields[ $key ] ) ? 'TRUE' : 'FALSE';
+					}
+				}
+				return $fields;
+			}
+		);
+
+		$posts = $this->generate_posts( 'post' );
+
+		foreach ( $posts as $post_id ) {
+			update_post_meta( $post_id, 'flag_for_test_1', '' );
+			update_post_meta( $post_id, 'flag_for_test_2', 42 );
+			update_post_meta( $post_id, 'flag_for_test_3', 42 );
+		}
+
+		$data = new Data_Builder( 'post' );
+
+		$data->append_meta_key( 'flag_for_test_1' );
+		$data->append_meta_key( 'flag_for_test_2' );
+		$data->append_meta_key( 'flag_for_test_3' );
+
+		foreach ( $data->get_rows() as $row ) {
+			$this->assertEquals( 'FALSE', $row['flag_for_test_1'] );
+			$this->assertEquals( 'TRUE', $row['flag_for_test_2'] );
+			$this->assertEquals( '42', $row['flag_for_test_3'] );
+		}
+	}
+
 
 }
