@@ -1,6 +1,6 @@
 {
     "name": "@hamworks/simple-csv-exporter",
-    "version": "0.0.1",
+    "version": "0.0.0",
     "private": true,
     "author": "HIroshi Urabe <mail@torounit.com> (https://torounit.com)",
     "license": "GPL-3.0+",
@@ -38,5 +38,21 @@
         "*.php": [
             "npm run lint-php"
         ]
+    },
+    "release-it": {
+        "hooks": {
+            "before:bump": "bash ./bin/create-release.sh simple-csv-exporter ${version}",
+            "after:bump": "bash ./bin/create-zip.sh simple-csv-exporter",
+            "after:release": "bash ./bin/cleanup.sh simple-csv-exporter"
+        },
+        "github": {
+            "release": true,
+            "assets": [
+                "simple-csv-exporter.zip"
+            ]
+        },
+        "npm": {
+            "publish": false
+        }
     }
 }
