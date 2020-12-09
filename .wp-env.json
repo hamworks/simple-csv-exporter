@@ -1,0 +1,16 @@
+{
+    "core": "WordPress/WordPress#master",
+    "port": 12345,
+    "plugins": [
+        "."
+    ],
+    "config": {
+        "WP_ENVIRONMENT_TYPE": "local",
+        "WP_DEBUG": true
+    },
+    "env": {
+        "tests": {
+            "port": 23456
+        }
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "name": "hamworks/wp-csv-exporter",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Hiroshi Urabe",
+            "email": "urabe@ham.works"
+        }
+    ],
+    "require": {
+        "php": ">=7.2"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3",
+        "dealerdirect/phpcodesniffer-composer-installer": "^v0.7",
+        "phpcompatibility/phpcompatibility-wp": "^2",
+        "wp-coding-standards/wpcs": "^2",
+        "wp-phpunit/wp-phpunit": "^5",
+        "phpunit/phpunit": "^7"
+    },
+    "autoload": {
+        "psr-4": {
+            "HAMWORKS\\WP\\Simple_CSV_Exporter\\": "./src/",
+            "HAMWORKS\\WP\\Tests\\Simple_CSV_Exporter\\": "./tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "format": "phpcbf --standard=./.phpcs.xml.dist --report-summary --report-source",
+        "lint": "phpcs --standard=./.phpcs.xml.dist",
+        "phpcs": "phpcs --standard=./.phpcs.xml.dist"
+    }
+}
