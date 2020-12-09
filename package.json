@@ -1,18 +1,18 @@
 {
-    "name": "@hamworks/wp-csv-exporter",
+    "name": "@hamworks/simple-csv-exporter",
     "version": "0.0.1",
     "private": true,
     "author": "HIroshi Urabe <mail@torounit.com> (https://torounit.com)",
     "license": "GPL-3.0+",
     "scripts": {
         "wp-env": "wp-env",
-        "test-unit-php": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/csv-exporter/phpunit.xml.dist --verbose'",
+        "test-unit-php": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/simple-csv-exporter/phpunit.xml.dist --verbose'",
         "packages-update": "wp-scripts packages-update",
         "lint-php": "./vendor/bin/phpcs --standard=./.phpcs.xml.dist"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/team-hamworks/wp-csv-exporter.git"
+        "url": "https://github.com/team-hamworks/simple-csv-exporter.git"
     },
     "devDependencies": {
         "@wordpress/env": "^2.1.0",
