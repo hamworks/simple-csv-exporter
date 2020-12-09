@@ -1,14 +1,14 @@
 <?php
 
-namespace HAMWORKS\WP\Tests\Simple_CSV_Exporter;
+namespace HAMWORKS\WP\Simple_CSV_Exporter\Tests;
 
 use HAMWORKS\WP\Simple_CSV_Exporter\CSV_Writer;
-use WP_UnitTestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for CSV_Writer
  */
-class CSV_Writer_Test extends WP_UnitTestCase {
+class CSV_Writer_Test extends TestCase {
 
 	/**
 	 * @test

@@ -21,7 +21,7 @@
     "autoload": {
         "psr-4": {
             "HAMWORKS\\WP\\Simple_CSV_Exporter\\": "./src/",
-            "HAMWORKS\\WP\\Tests\\Simple_CSV_Exporter\\": "./tests"
+            "HAMWORKS\\WP\\Simple_CSV_Exporter\\Tests\\": "./tests"
         }
     },
     "scripts": {

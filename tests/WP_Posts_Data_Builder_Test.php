@@ -1,17 +1,25 @@
 <?php
 
-namespace HAMWORKS\WP\Tests\Simple_CSV_Exporter;
+namespace HAMWORKS\WP\Simple_CSV_Exporter\Tests;
 
-use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder;
+use HAMWORKS\WP\Simple_CSV_Exporter\WP_Posts_Data_Builder;
 use WP_Query;
 use WP_UnitTestCase;
 
 /**
- * Class Data_Builder_Test
+ * Class WP_Posts_Data_Builder_Test
  */
-class Data_Builder_Test extends WP_UnitTestCase {
+class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 
-	public function generate_posts( $post_type, $post_count = 5 ) {
+	/**
+	 * Posts generator.
+	 *
+	 * @param $post_type
+	 * @param int $post_count
+	 *
+	 * @return int[]
+	 */
+	public function generate_posts( $post_type, $post_count = 5 ): array {
 		$author = $this->factory()->user->create();
 
 		return $this->factory()->post->create_many(
@@ -24,9 +32,11 @@ class Data_Builder_Test extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Date provider for post type.
+	 *
 	 * @return array
 	 */
-	public function postProvider() {
+	public function post_type_provider(): array {
 		return array(
 			array(
 				'post_type' => 'post',
@@ -42,7 +52,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 
 	/**
 	 * @test
-	 * @dataProvider postProvider
+	 * @dataProvider post_type_provider
 	 *
 	 * @param $post_type
 	 */
@@ -65,7 +75,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 			set_post_thumbnail( $post_id, $attachment_id );
 		}
 
-		$data = new Data_Builder( $post_type );
+		$data = new WP_Posts_Data_Builder( $post_type );
 
 		$this->assertEquals( $post_type, $data->get_post_type() );
 
@@ -101,7 +111,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 
 	/**
 	 * @test
-	 * @dataProvider postProvider
+	 * @dataProvider post_type_provider
 	 *
 	 * @param $post_type
 	 */
@@ -117,7 +127,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 		foreach ( $posts as $post_id ) {
 			wp_set_post_terms( $post_id, array( 'term1', 'term2', 'term3' ), $taxonomy, true );
 		}
-		$data = new Data_Builder( $post_type );
+		$data = new WP_Posts_Data_Builder( $post_type );
 
 		foreach ( $data->get_rows() as $row ) {
 			$this->assertArrayHasKey( 'tax_' . $taxonomy, $row );
@@ -127,7 +137,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 
 	/**
 	 * @test
-	 * @dataProvider postProvider
+	 * @dataProvider post_type_provider
 	 *
 	 * @param $post_type
 	 */
@@ -147,7 +157,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 			update_post_meta( $post_id, '_private_string', 'secret' );
 		}
 
-		$data = new Data_Builder( $post_type );
+		$data = new WP_Posts_Data_Builder( $post_type );
 		$data->append_meta_key( $rand_meta_key );
 		$data->append_meta_key( 'meta_string' );
 		$data->append_meta_key( 'meta_number' );
@@ -167,7 +177,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 
 	public function test_drop_field() {
 		$this->generate_posts( 'post' );
-		$data = new Data_Builder( 'post' );
+		$data = new WP_Posts_Data_Builder( 'post' );
 		$data->append_drop_field( 'post_title' );
 		$data->remove_drop_field( 'comment_count' );
 
@@ -190,7 +200,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 
 		$this->generate_posts( 'post', 1 );
 		$this->generate_posts( 'page', 2 );
-		$data = new Data_Builder( 'post' );
+		$data = new WP_Posts_Data_Builder( 'post' );
 
 		foreach ( $data->get_rows() as $row ) {
 			$this->assertEquals( 'page', $row['post_type'] );
@@ -230,7 +240,7 @@ class Data_Builder_Test extends WP_UnitTestCase {
 			update_post_meta( $post_id, 'flag_for_test_3', 42 );
 		}
 
-		$data = new Data_Builder( 'post' );
+		$data = new WP_Posts_Data_Builder( 'post' );
 
 		$data->append_meta_key( 'flag_for_test_1' );
 		$data->append_meta_key( 'flag_for_test_2' );
