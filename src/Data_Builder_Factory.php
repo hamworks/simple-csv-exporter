@@ -5,8 +5,6 @@ namespace HAMWORKS\WP\Simple_CSV_Exporter;
 
 /**
  * Factory for Data_Builder.
- *
- * @package HAMWORKS\WP\Simple_CSV_Exporter
  */
 class Data_Builder_Factory {
 

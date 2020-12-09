@@ -10,8 +10,6 @@
  * Text Domain:     wp-csv-exporter
  * Domain Path:     /languages
  * Version: 0.0.1
- *
- * @package HAMWORKS\WP\Simple_CSV_Exporter
  */
 
 use HAMWORKS\WP\Simple_CSV_Exporter\Simple_CSV_Exporter;

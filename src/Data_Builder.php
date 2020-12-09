@@ -9,8 +9,6 @@ use Iterator;
  * Data_Builder
  *
  * @abstract
- *
- * @package HAMWORKS\WP\Simple_CSV_Exporter
  */
 abstract class Data_Builder {
 
@@ -24,9 +22,9 @@ abstract class Data_Builder {
 	/**
 	 * Alias for append_drop_column.
 	 *
-	 * @deprecated 1.0.0
-	 *
 	 * @param string $column_name column name.
+	 *
+	 * @deprecated 1.0.0
 	 */
 	public function append_drop_field( string $column_name ) {
 		$this->append_drop_column( $column_name );
@@ -44,9 +42,9 @@ abstract class Data_Builder {
 	/**
 	 * Alias for append_drop_column.
 	 *
-	 * @deprecated 1.0.0
-	 *
 	 * @param string $column_name column name.
+	 *
+	 * @deprecated 1.0.0
 	 */
 	public function remove_drop_field( string $column_name ) {
 		$this->remove_drop_column( $column_name );
@@ -67,7 +65,12 @@ abstract class Data_Builder {
 	 * @return null[]
 	 */
 	protected function get_field_mask(): array {
-		return array_map( '__return_null', array_flip( $this->drop_columns ) );
+		return array_map(
+			function () {
+				return null;
+			},
+			array_flip( $this->drop_columns )
+		);
 	}
 
 	/**

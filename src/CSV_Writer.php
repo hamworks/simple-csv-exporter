@@ -4,8 +4,6 @@ namespace HAMWORKS\WP\Simple_CSV_Exporter;
 
 /**
  * Class CSV_Generator
- *
- * @package HAMWORKS\WP\Simple_CSV_Exporter
  */
 class CSV_Writer {
 

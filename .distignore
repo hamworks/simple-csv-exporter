@@ -7,6 +7,7 @@
 .idea
 .travis.yml
 .DS_Store
+.phpdoc
 Thumbs.db
 behat.yml
 bin

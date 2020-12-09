@@ -8,6 +8,7 @@ node_modules/
 *.sql
 *.tar.gz
 *.zip
+.phpdoc
 build
 
 /vendor/

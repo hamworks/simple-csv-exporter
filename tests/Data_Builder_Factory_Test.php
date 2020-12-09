@@ -9,8 +9,6 @@ use WP_UnitTestCase;
 
 /**
  * Unit test for Data_Builder_Factory
- *
- * @package HAMWORKS\WP\Simple_CSV_Exporter\Tests
  */
 class Data_Builder_Factory_Test extends WP_UnitTestCase {
 

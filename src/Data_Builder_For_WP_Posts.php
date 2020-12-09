@@ -9,8 +9,6 @@ use WP_Taxonomy;
 
 /**
  * Class CSV_Generator
- *
- * @package HAMWORKS\WP\Simple_CSV_Exporter
  */
 class Data_Builder_For_WP_Posts extends Data_Builder {
 
