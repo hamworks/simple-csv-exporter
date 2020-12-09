@@ -1,13 +1,13 @@
 # Simple CSV Exporter
 Contributors:      Toro_Unit,hamworks  
 Donate link:       https://www.paypal.me/torounit  
-Tags:              CSV,export
+Tags:              CSV,export  
 Requires at least: 5.5  
 Tested up to:      5.6  
 Requires PHP:      7.2  
-Stable tag:        0.0.1
+Stable tag:        0.0.1  
 License:           GPLv2 or later  
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
 This block is editors note. Not display on front.
 
@@ -37,7 +37,7 @@ add_action( 'simple_csv_exporter_pre_export',
 Customize posts for export.
 
 ```php
-add_action( 'simple_csv_exporter_pre_get_posts', 
+add_action( 'simple_csv_exporter_data_builder_pre_get_posts', 
 	function ( WP_Query $query ) {
 		$query->set( 'order', 'ASC' );
 	}
