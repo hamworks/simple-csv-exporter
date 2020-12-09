@@ -94,7 +94,6 @@ class Simple_CSV_Exporter {
 			<div id="csv_export" class="wrap">
 				<form method="post">
 					<?php wp_nonce_field( self::SLUG ); ?>
-
 					<table>
 						<tr>
 							<th scope="row">
@@ -119,11 +118,6 @@ class Simple_CSV_Exporter {
 							</td>
 						</tr>
 					</table>
-					<label>
-
-
-					</label>
-
 					<?php submit_button( esc_html__( 'Export', 'simple-csv-exporter' ) ); ?>
 				</form>
 			</div>
