@@ -26,7 +26,7 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 *
 	 * @var string[]
 	 */
-	private $drop_columns = array(
+	protected $drop_columns = array(
 		'post_date_gmt',
 		'comment_status',
 		'ping_status',

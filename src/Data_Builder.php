@@ -19,22 +19,7 @@ abstract class Data_Builder {
 	 *
 	 * @var string[]
 	 */
-	private $drop_columns = array(
-		'post_date_gmt',
-		'comment_status',
-		'ping_status',
-		'to_ping',
-		'pinged',
-		'post_modified',
-		'post_modified_gmt',
-		'post_content_filtered',
-		'guid',
-		'post_mime_type',
-		'comment_count',
-		'filter',
-		'tags_input',
-	);
-
+	protected $drop_columns = array();
 
 	/**
 	 * Alias for append_drop_column.

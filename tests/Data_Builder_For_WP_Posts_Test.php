@@ -100,6 +100,7 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 			$this->assertStringContainsString( 'canola.jpg', $row['post_thumbnail'] );
 			$this->assertStringContainsString( 'http', $row['post_thumbnail'] );
 			$this->assertArrayNotHasKey( 'tags_input', $row );
+			$this->assertArrayNotHasKey( 'post_content_filtered', $row );
 			if ( 'post' === $post_type ) {
 				$this->assertArrayHasKey( 'post_category', $row );
 			}

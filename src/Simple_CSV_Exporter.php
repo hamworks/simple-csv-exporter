@@ -10,7 +10,7 @@ use WP_Post_Type;
 class Simple_CSV_Exporter {
 
 	const POST_TYPE_TO_EXPORT = 'post_type_to_export';
-	const SLUG = 'simple_csv_exporter';
+	const SLUG                = 'simple_csv_exporter';
 
 	/**
 	 * Admin constructor.
@@ -112,7 +112,7 @@ class Simple_CSV_Exporter {
 									foreach ( get_post_types( array( 'can_export' => true ), 'objects' ) as $post_type ) :
 										?>
 										<option value="<?php echo esc_attr( $post_type->name ); ?>"><?php echo esc_html( $post_type->label ); ?></option>
-									<?php
+										<?php
 									endforeach;
 									?>
 								</select>
