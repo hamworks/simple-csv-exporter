@@ -28,7 +28,6 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 */
 	protected $drop_columns = array(
 		'post_date_gmt',
-		'comment_status',
 		'ping_status',
 		'to_ping',
 		'pinged',
@@ -40,6 +39,7 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 		'comment_count',
 		'filter',
 		'tags_input',
+		'page_template',
 	);
 
 	/**
@@ -74,6 +74,7 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 
 		$query = new WP_Query();
 		$query->set( 'nopaging', true );
+		$query->set( 'post_status', 'any' );
 		$query->set( 'post_type', $this->post_type );
 
 		/**
