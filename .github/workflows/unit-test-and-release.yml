@@ -73,21 +73,24 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: 7.3
           extensions: mbstring, intl #optional, setup extensions
           ini-values: post_max_size=256M, short_open_tag=On #optional, setup php.ini configuration
           coverage: xdebug #optional, setup coverage driver
+        if: contains(github.ref, 'tags/')
 
       - name: Check PHP Version
         run: php -v
+        if: contains(github.ref, 'tags/')
 
       - name: Composer install
         run: composer install --optimize-autoloader --prefer-dist
+        if: contains(github.ref, 'tags/')
 
       - name: Build
-        if: contains(github.ref, 'tags/')
         run: |
           bash ./bin/build.sh
+        if: contains(github.ref, 'tags/')
 
       - name: WordPress Plugin Deploy
         if: contains(github.ref, 'tags/')
