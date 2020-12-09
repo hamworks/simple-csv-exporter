@@ -67,6 +67,8 @@ class Data_Builder_Test extends WP_UnitTestCase {
 
 		$data = new Data_Builder( $post_type );
 
+		$this->assertEquals( $post_type, $data->get_post_type() );
+
 		foreach ( $data->get_rows() as $row ) {
 			$this->assertContainsOnly(
 				'string',
