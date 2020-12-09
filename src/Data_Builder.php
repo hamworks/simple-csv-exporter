@@ -26,7 +26,7 @@ class Data_Builder {
 	 *
 	 * @var string[]
 	 */
-	private $drop_fields = array(
+	private $drop_columns = array(
 		'post_date_gmt',
 		'comment_status',
 		'ping_status',
@@ -81,7 +81,7 @@ class Data_Builder {
 		 *
 		 * @param WP_Query $query
 		 */
-		do_action( 'simple_csv_exporter_pre_get_posts', $query );
+		do_action( 'simple_csv_exporter_data_builder_pre_get_posts', $query );
 
 		$query->get_posts();
 		$this->query = $query;
@@ -145,7 +145,7 @@ class Data_Builder {
 	 * @param string $column_name column name.
 	 */
 	public function append_drop_column( string $column_name ) {
-		$this->drop_fields = array_merge( $this->drop_fields, array( $column_name ) );
+		$this->drop_columns = array_merge( $this->drop_columns, array( $column_name ) );
 	}
 
 	/**
@@ -165,7 +165,7 @@ class Data_Builder {
 	 * @param string $column_name column name.
 	 */
 	public function remove_drop_column( string $column_name ) {
-		$this->drop_fields = array_values( array_diff( $this->drop_fields, array( $column_name ) ) );
+		$this->drop_columns = array_values( array_diff( $this->drop_columns, array( $column_name ) ) );
 	}
 
 	/**
@@ -195,7 +195,7 @@ class Data_Builder {
 	 * @return null[]
 	 */
 	private function get_field_mask(): array {
-		return array_map( '__return_null', array_flip( $this->drop_fields ) );
+		return array_map( '__return_null', array_flip( $this->drop_columns ) );
 	}
 
 	/**
@@ -281,6 +281,13 @@ class Data_Builder {
 				}
 			);
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_post_type(): string {
+		return $this->post_type;
 	}
 
 }
