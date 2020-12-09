@@ -3,6 +3,7 @@
 namespace HAMWORKS\WP\Tests\Simple_CSV_Exporter;
 
 use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder;
+use WP_Query;
 use WP_UnitTestCase;
 
 /**
@@ -10,11 +11,11 @@ use WP_UnitTestCase;
  */
 class Data_Builder_Test extends WP_UnitTestCase {
 
-	public function generate_posts( $post_type ) {
+	public function generate_posts( $post_type, $post_count = 5 ) {
 		$author = $this->factory()->user->create();
 
 		return $this->factory()->post->create_many(
-			5,
+			$post_count,
 			array(
 				'post_type'   => $post_type,
 				'post_author' => $author,
@@ -172,6 +173,30 @@ class Data_Builder_Test extends WP_UnitTestCase {
 			$this->assertArrayNotHasKey( 'post_title', $row );
 			$this->assertArrayHasKey( 'comment_count', $row );
 		}
+	}
+
+	/**
+	 * @test for `simple_csv_exporter_data_builder_pre_get_posts` action.
+	 */
+	public function test_action_simple_csv_exporter_data_builder_pre_get_posts() {
+		add_action(
+			'simple_csv_exporter_data_builder_pre_get_posts',
+			function ( WP_Query $query ) {
+				$query->set( 'post_type', 'page' );
+			}
+		);
+
+		$this->generate_posts( 'post', 1 );
+		$this->generate_posts( 'page', 2 );
+		$data = new Data_Builder( 'post' );
+
+		foreach ( $data->get_rows() as $row ) {
+			$this->assertEquals( 'page', $row['post_type'] );
+		}
+
+		$this->assertEquals( 2, count( iterator_to_array( $data->get_rows(), false ) ) );
+
+		remove_all_actions( 'simple_csv_exporter_data_builder_pre_get_posts' );
 	}
 
 

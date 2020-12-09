@@ -55,7 +55,6 @@ class Simple_CSV_Exporter {
 
 			$data = new Data_Builder( $post_type_to_export );
 
-
 			/**
 			 * Fires after data generator is created, but before export.
 			 *
