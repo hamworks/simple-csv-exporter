@@ -2,14 +2,14 @@
 
 namespace HAMWORKS\WP\Simple_CSV_Exporter\Tests;
 
-use HAMWORKS\WP\Simple_CSV_Exporter\WP_Posts_Data_Builder;
+use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder_For_WP_Posts;
 use WP_Query;
 use WP_UnitTestCase;
 
 /**
- * Class WP_Posts_Data_Builder_Test
+ * Unit test for Data_Builder_For_WP_Posts.
  */
-class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
+class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 
 	/**
 	 * Posts generator.
@@ -75,7 +75,7 @@ class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 			set_post_thumbnail( $post_id, $attachment_id );
 		}
 
-		$data = new WP_Posts_Data_Builder( $post_type );
+		$data = new Data_Builder_For_WP_Posts( $post_type );
 
 		$this->assertEquals( $post_type, $data->get_post_type() );
 
@@ -127,7 +127,7 @@ class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 		foreach ( $posts as $post_id ) {
 			wp_set_post_terms( $post_id, array( 'term1', 'term2', 'term3' ), $taxonomy, true );
 		}
-		$data = new WP_Posts_Data_Builder( $post_type );
+		$data = new Data_Builder_For_WP_Posts( $post_type );
 
 		foreach ( $data->get_rows() as $row ) {
 			$this->assertArrayHasKey( 'tax_' . $taxonomy, $row );
@@ -157,7 +157,7 @@ class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 			update_post_meta( $post_id, '_private_string', 'secret' );
 		}
 
-		$data = new WP_Posts_Data_Builder( $post_type );
+		$data = new Data_Builder_For_WP_Posts( $post_type );
 		$data->append_meta_key( $rand_meta_key );
 		$data->append_meta_key( 'meta_string' );
 		$data->append_meta_key( 'meta_number' );
@@ -177,7 +177,7 @@ class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 
 	public function test_drop_field() {
 		$this->generate_posts( 'post' );
-		$data = new WP_Posts_Data_Builder( 'post' );
+		$data = new Data_Builder_For_WP_Posts( 'post' );
 		$data->append_drop_field( 'post_title' );
 		$data->remove_drop_field( 'comment_count' );
 
@@ -188,11 +188,11 @@ class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @test for `simple_csv_exporter_data_builder_pre_get_posts` action.
+	 * @test for `simple_csv_exporter_created_data_builder_pre_get_posts` action.
 	 */
-	public function test_action_simple_csv_exporter_data_builder_pre_get_posts() {
+	public function test_action_simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts() {
 		add_action(
-			'simple_csv_exporter_data_builder_pre_get_posts',
+			'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts',
 			function ( WP_Query $query ) {
 				$query->set( 'post_type', 'page' );
 			}
@@ -200,7 +200,7 @@ class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 
 		$this->generate_posts( 'post', 1 );
 		$this->generate_posts( 'page', 2 );
-		$data = new WP_Posts_Data_Builder( 'post' );
+		$data = new Data_Builder_For_WP_Posts( 'post' );
 
 		foreach ( $data->get_rows() as $row ) {
 			$this->assertEquals( 'page', $row['post_type'] );
@@ -208,15 +208,15 @@ class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 
 		$this->assertEquals( 2, count( iterator_to_array( $data->get_rows(), false ) ) );
 
-		remove_all_actions( 'simple_csv_exporter_data_builder_pre_get_posts' );
+		remove_all_actions( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts' );
 	}
 
 	/**
-	 * @test for `simple_csv_exporter_data_builder_get_post_meta_fields` filter.
+	 * @test for `simple_csv_exporter_created_data_builder_get_post_meta_fields` filter.
 	 */
-	public function test_filter_simple_csv_exporter_data_builder_get_post_meta_fields() {
+	public function test_filter_simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields() {
 		add_filter(
-			'simple_csv_exporter_data_builder_get_post_meta_fields',
+			'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields',
 			function ( array $fields ) {
 				foreach (
 					array(
@@ -240,7 +240,7 @@ class WP_Posts_Data_Builder_Test extends WP_UnitTestCase {
 			update_post_meta( $post_id, 'flag_for_test_3', 42 );
 		}
 
-		$data = new WP_Posts_Data_Builder( 'post' );
+		$data = new Data_Builder_For_WP_Posts( 'post' );
 
 		$data->append_meta_key( 'flag_for_test_1' );
 		$data->append_meta_key( 'flag_for_test_2' );

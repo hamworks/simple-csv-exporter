@@ -24,7 +24,7 @@ Customize for column.
 
 ```php
 use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder;
-add_action( 'simple_csv_exporter_pre_export', 
+add_action( 'simple_csv_exporter_created_data_builder', 
 	function ( Data_Builder $data ) {
 		// Remove column.
 		$data->append_drop_column( 'page_template' );
@@ -37,7 +37,7 @@ add_action( 'simple_csv_exporter_pre_export',
 Customize posts for export.
 
 ```php
-add_action( 'simple_csv_exporter_data_builder_pre_get_posts', 
+add_action( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts', 
 	function ( WP_Query $query ) {
 		$query->set( 'order', 'ASC' );
 	}
@@ -48,7 +48,7 @@ Data filter for metadata.
 
 ```php
 use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder;
-add_filter( 'simple_csv_exporter_data_builder_get_post_meta_fields',
+add_filter( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields',
 	function ( array $fields ) {
 		foreach (
 			array(

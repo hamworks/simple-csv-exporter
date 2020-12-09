@@ -6,7 +6,7 @@ use HAMWORKS\WP\Simple_CSV_Exporter\CSV_Writer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Test for CSV_Writer
+ * Unit test for CSV_Writer.
  */
 class CSV_Writer_Test extends TestCase {
 

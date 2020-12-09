@@ -12,7 +12,7 @@ use WP_Taxonomy;
  *
  * @package HAMWORKS\WP\Simple_CSV_Exporter
  */
-class WP_Posts_Data_Builder extends Data_Builder {
+class Data_Builder_For_WP_Posts extends Data_Builder {
 
 	/**
 	 * Post type name.
@@ -81,7 +81,7 @@ class WP_Posts_Data_Builder extends Data_Builder {
 		 *
 		 * @param WP_Query $query
 		 */
-		do_action( 'simple_csv_exporter_data_builder_pre_get_posts', $query );
+		do_action( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts', $query );
 
 		$query->get_posts();
 		$this->query = $query;
@@ -176,7 +176,7 @@ class WP_Posts_Data_Builder extends Data_Builder {
 		 * @param array $fields meta key and value.
 		 * @param WP_Post $post post object.
 		 */
-		return apply_filters( 'simple_csv_exporter_data_builder_get_post_meta_fields', $fields, $post );
+		return apply_filters( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields', $fields, $post );
 	}
 
 
