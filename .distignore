@@ -22,3 +22,16 @@ wordpress
 nightly
 .nvmrc
 .wp-env.json
+.distignore
+.editorconfig
+.gitignore
+.phpcs.xml.dist
+.wp-env.json
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpdoc.dist.xml
+phpunit.xml.dist
+README.md
+tests
