@@ -84,7 +84,7 @@ jobs:
         if: contains(github.ref, 'tags/')
 
       - name: Composer install
-        run: composer install --optimize-autoloader --prefer-dist
+        run: composer install --optimize-autoloader --prefer-dist --no-dev
         if: contains(github.ref, 'tags/')
 
       - name: Build
