@@ -66,6 +66,9 @@ add_filter( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta
 
 ## Changelog
 
+### 1.0.0
+* first release.
+
 ### 0.0.1
 * internal release.
 
