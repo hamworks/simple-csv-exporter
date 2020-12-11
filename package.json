@@ -1,6 +1,6 @@
 {
     "name": "@hamworks/simple-csv-exporter",
-    "version": "1.0.0-beta.2",
+    "version": "0.0.5",
     "private": true,
     "author": "HIroshi Urabe <mail@torounit.com> (https://torounit.com)",
     "license": "GPL-3.0+",
