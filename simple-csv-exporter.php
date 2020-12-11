@@ -9,7 +9,7 @@
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:     wp-csv-exporter
  * Domain Path:     /languages
- * Version: 0.0.5
+ * Version: 1.0.0
  */
 
 use HAMWORKS\WP\Simple_CSV_Exporter\Simple_CSV_Exporter;
