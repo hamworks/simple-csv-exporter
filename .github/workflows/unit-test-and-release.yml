@@ -92,10 +92,10 @@ jobs:
           bash ./bin/build.sh
         if: contains(github.ref, 'tags/')
 
-#      - name: WordPress Plugin Deploy
-#        if: contains(github.ref, 'tags/')
-#        uses: 10up/action-wordpress-plugin-deploy@stable
-#        env:
-#          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-#          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-#          SLUG: simple-csv-exporter
+      - name: WordPress Plugin Deploy
+        if: contains(github.ref, 'tags/')
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: simple-csv-exporter
