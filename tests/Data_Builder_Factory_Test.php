@@ -15,13 +15,13 @@ class Data_Builder_Factory_Test extends WP_UnitTestCase {
 	public function test_create() {
 		$factory = new Data_Builder_Factory();
 
-		$post_data_builder = $factory->create( 'WordPress', array( 'post_type' => 'post' ) );
-		$this->assertInstanceOf( Data_Builder_For_WP_Posts::class, $post_data_builder );
-		$this->assertEquals( 'post', $post_data_builder->get_post_type() );
+		$post_data = $factory->create( 'WordPress', array( 'post_type' => 'post' ) );
+		$this->assertInstanceOf( Data_Builder_For_WP_Posts::class, $post_data );
+		$this->assertEquals( 'post', $post_data->get_post_type() );
 
-		$page_data_builder = $factory->create( 'WordPress', array( 'post_type' => 'page' ) );
-		$this->assertInstanceOf( Data_Builder_For_WP_Posts::class, $page_data_builder );
-		$this->assertEquals( 'page', $page_data_builder->get_post_type() );
+		$page_data = $factory->create( 'WordPress', array( 'post_type' => 'page' ) );
+		$this->assertInstanceOf( Data_Builder_For_WP_Posts::class, $page_data );
+		$this->assertEquals( 'page', $page_data->get_post_type() );
 	}
 
 	public function test_action_simple_csv_exporter_created_data_builder() {
@@ -35,9 +35,9 @@ class Data_Builder_Factory_Test extends WP_UnitTestCase {
 			}
 		);
 		$this->factory()->post->create_many( 2 );
-		$factory      = new Data_Builder_Factory();
-		$data_builder = $factory->create( 'WordPress', array( 'post_type' => 'post' ) );
-		foreach ( $data_builder as $row ) {
+		$factory = new Data_Builder_Factory();
+		$data    = $factory->create( 'WordPress', array( 'post_type' => 'post' ) );
+		foreach ( $data as $row ) {
 			$this->assertArrayNotHasKey( 'page_template', $row );
 			$this->assertArrayHasKey( 'my_meta_key', $row );
 		}
