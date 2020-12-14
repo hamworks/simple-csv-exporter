@@ -75,11 +75,11 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 			set_post_thumbnail( $post_id, $attachment_id );
 		}
 
-		$data = new Data_Builder_For_WP_Posts( $post_type );
+		$data_builder_builder = new Data_Builder_For_WP_Posts( $post_type );
 
-		$this->assertEquals( $post_type, $data->get_post_type() );
+		$this->assertEquals( $post_type, $data_builder_builder->get_post_type() );
 
-		foreach ( $data->get_rows() as $row ) {
+		foreach ( $data_builder_builder as $row ) {
 			$this->assertContainsOnly(
 				'string',
 				array_map(
@@ -128,9 +128,9 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 		foreach ( $posts as $post_id ) {
 			wp_set_post_terms( $post_id, array( 'term1', 'term2', 'term3' ), $taxonomy, true );
 		}
-		$data = new Data_Builder_For_WP_Posts( $post_type );
+		$data_builder = new Data_Builder_For_WP_Posts( $post_type );
 
-		foreach ( $data->get_rows() as $row ) {
+		foreach ( $data_builder->get_rows() as $row ) {
 			$this->assertArrayHasKey( 'tax_' . $taxonomy, $row );
 			$this->assertEquals( 'term1,term2,term3', $row[ 'tax_' . $taxonomy ] );
 		}
@@ -158,13 +158,13 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 			update_post_meta( $post_id, '_private_string', 'secret' );
 		}
 
-		$data = new Data_Builder_For_WP_Posts( $post_type );
-		$data->append_meta_key( $rand_meta_key );
-		$data->append_meta_key( 'meta_string' );
-		$data->append_meta_key( 'meta_number' );
-		$data->append_meta_key( '_private_string' );
+		$data_builder = new Data_Builder_For_WP_Posts( $post_type );
+		$data_builder->append_meta_key( $rand_meta_key );
+		$data_builder->append_meta_key( 'meta_string' );
+		$data_builder->append_meta_key( 'meta_number' );
+		$data_builder->append_meta_key( '_private_string' );
 
-		foreach ( $data->get_rows() as $row ) {
+		foreach ( $data_builder->get_rows() as $row ) {
 			$this->assertArrayHasKey( $rand_meta_key, $row );
 			$this->assertEquals( $rand_meta_value, $row[ $rand_meta_key ] );
 			$this->assertArrayHasKey( 'meta_string', $row );
@@ -178,11 +178,11 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 
 	public function test_drop_field() {
 		$this->generate_posts( 'post' );
-		$data = new Data_Builder_For_WP_Posts( 'post' );
-		$data->append_drop_field( 'post_title' );
-		$data->remove_drop_field( 'comment_count' );
+		$data_builder = new Data_Builder_For_WP_Posts( 'post' );
+		$data_builder->append_drop_field( 'post_title' );
+		$data_builder->remove_drop_field( 'comment_count' );
 
-		foreach ( $data->get_rows() as $row ) {
+		foreach ( $data_builder as $row ) {
 			$this->assertArrayNotHasKey( 'post_title', $row );
 			$this->assertArrayHasKey( 'comment_count', $row );
 		}
@@ -201,13 +201,13 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 
 		$this->generate_posts( 'post', 1 );
 		$this->generate_posts( 'page', 2 );
-		$data = new Data_Builder_For_WP_Posts( 'post' );
+		$data_builder = new Data_Builder_For_WP_Posts( 'post' );
 
-		foreach ( $data->get_rows() as $row ) {
+		foreach ( $data_builder as $row ) {
 			$this->assertEquals( 'page', $row['post_type'] );
 		}
 
-		$this->assertEquals( 2, count( iterator_to_array( $data->get_rows(), false ) ) );
+		$this->assertEquals( 2, count( iterator_to_array( $data_builder->get_rows(), false ) ) );
 
 		remove_all_actions( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts' );
 	}
@@ -241,13 +241,13 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 			update_post_meta( $post_id, 'flag_for_test_3', 42 );
 		}
 
-		$data = new Data_Builder_For_WP_Posts( 'post' );
+		$data_builder = new Data_Builder_For_WP_Posts( 'post' );
 
-		$data->append_meta_key( 'flag_for_test_1' );
-		$data->append_meta_key( 'flag_for_test_2' );
-		$data->append_meta_key( 'flag_for_test_3' );
+		$data_builder->append_meta_key( 'flag_for_test_1' );
+		$data_builder->append_meta_key( 'flag_for_test_2' );
+		$data_builder->append_meta_key( 'flag_for_test_3' );
 
-		foreach ( $data->get_rows() as $row ) {
+		foreach ( $data_builder->get_rows() as $row ) {
 			$this->assertEquals( 'FALSE', $row['flag_for_test_1'] );
 			$this->assertEquals( 'TRUE', $row['flag_for_test_2'] );
 			$this->assertEquals( '42', $row['flag_for_test_3'] );

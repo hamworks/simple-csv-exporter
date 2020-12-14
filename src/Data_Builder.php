@@ -10,7 +10,7 @@ use Iterator;
  *
  * @abstract
  */
-abstract class Data_Builder {
+abstract class Data_Builder implements \IteratorAggregate {
 
 	/**
 	 * Post field keys to be removed.
@@ -81,7 +81,7 @@ abstract class Data_Builder {
 	/**
 	 * @return Generator
 	 */
-	final public function get_rows(): Generator {
+	final public function getIterator(): Generator {
 		foreach ( $this->generate_rows() as $row ) {
 			$masked_row = array_merge( $row, $this->get_field_mask() );
 			// Note: 'foo' => null なものを、まとめて削除.
@@ -94,4 +94,14 @@ abstract class Data_Builder {
 		}
 	}
 
+	/**
+	 * Alias for getIterator.
+	 *
+	 * @deprecated 1.1.0
+	 *
+	 * @return Generator
+	 */
+	final public function get_rows(): Generator {
+		return $this->getIterator();
+	}
 }

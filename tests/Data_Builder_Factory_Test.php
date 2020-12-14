@@ -37,7 +37,7 @@ class Data_Builder_Factory_Test extends WP_UnitTestCase {
 		$this->factory()->post->create_many( 2 );
 		$factory      = new Data_Builder_Factory();
 		$data_builder = $factory->create( 'WordPress', array( 'post_type' => 'post' ) );
-		foreach ( $data_builder->get_rows() as $row ) {
+		foreach ( $data_builder as $row ) {
 			$this->assertArrayNotHasKey( 'page_template', $row );
 			$this->assertArrayHasKey( 'my_meta_key', $row );
 		}

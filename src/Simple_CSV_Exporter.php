@@ -66,7 +66,7 @@ class Simple_CSV_Exporter {
 			$factory      = new Data_Builder_Factory();
 			$data_builder = $factory->create( 'WordPress', array( 'post_type' => $post_type_to_export ) );
 
-			$csv = new CSV_Writer( $data_builder->get_rows(), 'php://output' );
+			$csv = new CSV_Writer( $data_builder, 'php://output' );
 			$csv->render();
 
 			exit();
