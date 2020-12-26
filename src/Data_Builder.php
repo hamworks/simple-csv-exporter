@@ -4,13 +4,14 @@ namespace HAMWORKS\WP\Simple_CSV_Exporter;
 
 use Generator;
 use Iterator;
+use IteratorAggregate;
 
 /**
  * Data_Builder
  *
  * @abstract
  */
-abstract class Data_Builder implements \IteratorAggregate {
+abstract class Data_Builder implements IteratorAggregate {
 
 	/**
 	 * Post field keys to be removed.
@@ -79,6 +80,8 @@ abstract class Data_Builder implements \IteratorAggregate {
 	abstract protected function generate_rows();
 
 	/**
+	 * Iterator
+	 *
 	 * @return Generator
 	 */
 	final public function getIterator(): Generator {
@@ -104,4 +107,11 @@ abstract class Data_Builder implements \IteratorAggregate {
 	final public function get_rows(): Generator {
 		return $this->getIterator();
 	}
+
+	/**
+	 * Export file name.
+	 *
+	 * @return string
+	 */
+	abstract public function get_name(): string;
 }

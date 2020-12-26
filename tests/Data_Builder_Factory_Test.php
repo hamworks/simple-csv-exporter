@@ -17,11 +17,11 @@ class Data_Builder_Factory_Test extends WP_UnitTestCase {
 
 		$post_data = $factory->create( 'WordPress', array( 'post_type' => 'post' ) );
 		$this->assertInstanceOf( Data_Builder_For_WP_Posts::class, $post_data );
-		$this->assertEquals( 'post', $post_data->get_post_type() );
+		$this->assertEquals( 'post', $post_data->get_name() );
 
 		$page_data = $factory->create( 'WordPress', array( 'post_type' => 'page' ) );
 		$this->assertInstanceOf( Data_Builder_For_WP_Posts::class, $page_data );
-		$this->assertEquals( 'page', $page_data->get_post_type() );
+		$this->assertEquals( 'page', $page_data->get_name() );
 	}
 
 	public function test_action_simple_csv_exporter_created_data_builder() {

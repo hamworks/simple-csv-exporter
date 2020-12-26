@@ -236,7 +236,7 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	/**
 	 * @return string
 	 */
-	public function get_post_type(): string {
+	public function get_name(): string {
 		return $this->post_type;
 	}
 
