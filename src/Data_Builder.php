@@ -5,6 +5,8 @@ namespace HAMWORKS\WP\Simple_CSV_Exporter;
 use Generator;
 use Iterator;
 use IteratorAggregate;
+use phpDocumentor\Reflection\Types\Iterable_;
+use Traversable;
 
 /**
  * Data_Builder
@@ -54,9 +56,9 @@ abstract class Data_Builder implements IteratorAggregate {
 	}
 
 	/**
-	 * @return Iterator
+	 * @return Traversable
 	 */
-	abstract protected function generate_rows();
+	abstract protected function rows();
 
 	/**
 	 * Iterator
@@ -64,7 +66,7 @@ abstract class Data_Builder implements IteratorAggregate {
 	 * @return Generator
 	 */
 	final public function getIterator(): Generator {
-		foreach ( $this->generate_rows() as $row ) {
+		foreach ( $this->rows() as $row ) {
 			$masked_row = array_merge( $row, $this->get_field_mask() );
 			// Note: 'foo' => null なものを、まとめて削除.
 			yield array_filter(

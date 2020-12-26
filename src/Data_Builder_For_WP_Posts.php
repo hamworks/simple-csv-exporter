@@ -213,9 +213,11 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	}
 
 	/**
+	 * Row generator.
+	 *
 	 * @return Generator
 	 */
-	public function generate_rows(): Generator {
+	public function rows(): Generator {
 		if ( ! $this->post_type ) {
 			return;
 		}
