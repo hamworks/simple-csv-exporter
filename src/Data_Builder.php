@@ -20,16 +20,6 @@ abstract class Data_Builder implements IteratorAggregate {
 	 */
 	protected $drop_columns = array();
 
-	/**
-	 * Alias for append_drop_column.
-	 *
-	 * @param string $column_name column name.
-	 *
-	 * @deprecated 1.0.0
-	 */
-	public function append_drop_field( string $column_name ) {
-		$this->append_drop_column( $column_name );
-	}
 
 	/**
 	 * Add column to be removed from the CSV.
@@ -38,17 +28,6 @@ abstract class Data_Builder implements IteratorAggregate {
 	 */
 	public function append_drop_column( string $column_name ) {
 		$this->drop_columns = array_merge( $this->drop_columns, array( $column_name ) );
-	}
-
-	/**
-	 * Alias for append_drop_column.
-	 *
-	 * @param string $column_name column name.
-	 *
-	 * @deprecated 1.0.0
-	 */
-	public function remove_drop_field( string $column_name ) {
-		$this->remove_drop_column( $column_name );
 	}
 
 	/**
@@ -95,17 +74,6 @@ abstract class Data_Builder implements IteratorAggregate {
 				}
 			);
 		}
-	}
-
-	/**
-	 * Alias for getIterator.
-	 *
-	 * @deprecated 1.1.0
-	 *
-	 * @return Generator
-	 */
-	final public function get_rows(): Generator {
-		return $this->getIterator();
 	}
 
 	/**

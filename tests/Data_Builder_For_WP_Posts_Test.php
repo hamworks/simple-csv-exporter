@@ -188,18 +188,6 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 		}
 	}
 
-	public function test_deprecated_drop_field() {
-		$this->generate_posts( 'post' );
-		$data = new Data_Builder_For_WP_Posts( 'post' );
-		$data->append_drop_field( 'post_title' );
-		$data->remove_drop_field( 'comment_count' );
-
-		foreach ( $data->get_rows() as $row ) {
-			$this->assertArrayNotHasKey( 'post_title', $row );
-			$this->assertArrayHasKey( 'comment_count', $row );
-		}
-	}
-
 	/**
 	 * @test for `simple_csv_exporter_created_data_builder_pre_get_posts` action.
 	 */
