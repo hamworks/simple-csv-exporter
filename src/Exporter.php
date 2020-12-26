@@ -1,6 +1,5 @@
 <?php
 
-
 namespace HAMWORKS\WP\Simple_CSV_Exporter;
 
 /**

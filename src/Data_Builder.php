@@ -3,9 +3,7 @@
 namespace HAMWORKS\WP\Simple_CSV_Exporter;
 
 use Generator;
-use Iterator;
 use IteratorAggregate;
-use phpDocumentor\Reflection\Types\Iterable_;
 use Traversable;
 
 /**
