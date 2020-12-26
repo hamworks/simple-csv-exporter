@@ -2,6 +2,8 @@
 
 namespace HAMWORKS\WP\Simple_CSV_Exporter;
 
+use WP_Post_Type;
+
 /**
  * Admin UI.
  */
@@ -77,7 +79,7 @@ class Admin_UI {
 									name="<?php echo esc_attr( $this->post_type_var_name ); ?>"
 								>
 									<?php
-									/** @var \WP_Post_Type $post_type */
+									/** @var WP_Post_Type $post_type */
 									foreach ( get_post_types( array( 'can_export' => true ), 'objects' ) as $post_type ) :
 										?>
 										<option value="<?php echo esc_attr( $post_type->name ); ?>"><?php echo esc_html( $post_type->label ); ?></option>

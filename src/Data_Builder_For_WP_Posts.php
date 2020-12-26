@@ -109,35 +109,6 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	}
 
 	/**
-	 * Get term slugs.
-	 *
-	 * @param WP_Post $post
-	 * @param string $taxonomy
-	 *
-	 * @return string[]
-	 */
-	private function get_the_term_slugs( WP_Post $post, string $taxonomy ): array {
-		$terms = get_the_terms( $post, $taxonomy );
-		if ( ! is_array( $terms ) ) {
-			return array();
-		}
-
-		return array_map( 'urldecode', wp_list_pluck( $terms, 'slug' ) );
-	}
-
-	/**
-	 * Get terms field.
-	 *
-	 * @param WP_Post $post
-	 * @param string $taxonomy
-	 *
-	 * @return string
-	 */
-	private function get_the_terms_field( WP_Post $post, string $taxonomy ): string {
-		return join( ',', $this->get_the_term_slugs( $post, $taxonomy ) );
-	}
-
-	/**
 	 * @param WP_Post $post
 	 *
 	 * @return array
@@ -166,6 +137,35 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 		 * @param WP_Post $post post object.
 		 */
 		return apply_filters( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields', $fields, $post );
+	}
+
+	/**
+	 * Get term slugs.
+	 *
+	 * @param WP_Post $post
+	 * @param string $taxonomy
+	 *
+	 * @return string[]
+	 */
+	private function get_the_term_slugs( WP_Post $post, string $taxonomy ): array {
+		$terms = get_the_terms( $post, $taxonomy );
+		if ( ! is_array( $terms ) ) {
+			return array();
+		}
+
+		return array_map( 'urldecode', wp_list_pluck( $terms, 'slug' ) );
+	}
+
+	/**
+	 * Get terms field.
+	 *
+	 * @param WP_Post $post
+	 * @param string $taxonomy
+	 *
+	 * @return string
+	 */
+	private function get_the_terms_field( WP_Post $post, string $taxonomy ): string {
+		return join( ',', $this->get_the_term_slugs( $post, $taxonomy ) );
 	}
 
 
