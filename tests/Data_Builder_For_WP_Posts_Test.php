@@ -77,7 +77,7 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 
 		$data = new Data_Builder_For_WP_Posts( $post_type );
 
-		$this->assertEquals( $post_type, $data->get_post_type() );
+		$this->assertEquals( $post_type, $data->get_name() );
 
 		foreach ( $data as $row ) {
 			$this->assertContainsOnly(
