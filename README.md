@@ -66,6 +66,9 @@ add_filter( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta
 
 ## Changelog
 
+### 2.0.0
+* Use PHP-DI.
+
 ### 1.1.0
 * Refactoring release.
 
