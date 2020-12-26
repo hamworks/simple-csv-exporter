@@ -79,6 +79,13 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function get_post_type(): string {
+		return $this->post_type;
+	}
+
+	/**
 	 * Get the taxonomies related with the post type.
 	 *
 	 * @return string[]|WP_Taxonomy[]
@@ -252,4 +259,6 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 			);
 		}
 	}
+
+
 }

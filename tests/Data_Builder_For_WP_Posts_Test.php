@@ -77,7 +77,7 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 
 		$data = new Data_Builder_For_WP_Posts( $post_type );
 
-		$this->assertEquals( $post_type, $data->get_name() );
+		$this->assertEquals( get_post_type_object( $post_type )->label, $data->get_name() );
 
 		foreach ( $data as $row ) {
 			$this->assertContainsOnly(
@@ -156,6 +156,7 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 			update_post_meta( $post_id, 'meta_number', 42 );
 			update_post_meta( $post_id, 'meta_string', 'string' );
 			update_post_meta( $post_id, '_private_string', 'secret' );
+			update_post_meta( $post_id, 'meta_hidden', 'hidden' );
 		}
 
 		$data = new Data_Builder_For_WP_Posts( $post_type );
@@ -163,6 +164,8 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 		$data->append_meta_key( 'meta_string' );
 		$data->append_meta_key( 'meta_number' );
 		$data->append_meta_key( '_private_string' );
+		$data->append_meta_key( 'meta_hidden' );
+		$data->remove_meta_key( 'meta_hidden' );
 
 		foreach ( $data as $row ) {
 			$this->assertArrayHasKey( $rand_meta_key, $row );
@@ -173,6 +176,7 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 			$this->assertEquals( 42, $row['meta_number'] );
 			$this->assertArrayHasKey( '_private_string', $row );
 			$this->assertEquals( 'secret', $row['_private_string'] );
+			$this->assertArrayNotHasKey( 'meta_hidden', $row );
 		}
 	}
 
