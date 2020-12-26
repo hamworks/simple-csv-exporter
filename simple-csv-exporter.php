@@ -16,9 +16,4 @@ use HAMWORKS\WP\Simple_CSV_Exporter\Simple_CSV_Exporter;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-add_action(
-	'init',
-	function () {
-		new Simple_CSV_Exporter();
-	}
-);
+new Simple_CSV_Exporter();
