@@ -4,6 +4,8 @@ namespace HAMWORKS\WP\Simple_CSV_Exporter;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use Exception;
+use Psr\Container\ContainerInterface;
 use function DI\autowire;
 use function DI\create;
 use function DI\get;
@@ -15,6 +17,8 @@ class Simple_CSV_Exporter {
 
 	/**
 	 * Admin constructor.
+	 *
+	 * @throws Exception
 	 */
 	public function __construct() {
 		$container = $this->build_di_container();
@@ -33,7 +37,7 @@ class Simple_CSV_Exporter {
 	 * Build DI container.
 	 *
 	 * @return Container
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	private function build_di_container(): Container {
 		$builder = new ContainerBuilder();
@@ -43,8 +47,10 @@ class Simple_CSV_Exporter {
 				'slug'              => 'simple_csv_exporter',
 				Nonce::class        => create()
 					->constructor( get( 'slug' ) ),
-				Data_Builder::class => create( Data_Builder_For_WP_Posts::class )
-					->constructor( filter_input( INPUT_POST, get( 'var.name' ), FILTER_SANITIZE_STRING ) ?? '' ),
+				Data_Builder::class => function ( ContainerInterface $c ) {
+					$post_type = filter_input( INPUT_POST, $c->get( 'var.name' ), FILTER_SANITIZE_STRING ) ?? '';
+					return new Data_Builder_For_WP_Posts( $post_type );
+				},
 				Admin_UI::class     => autowire()
 					->constructor( get( 'slug' ), get( 'var.name' ) ),
 				Exporter::class     => autowire()

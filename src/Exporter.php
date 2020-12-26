@@ -59,6 +59,7 @@ class Exporter {
 		$this->send_headers( $this->data_builder->get_name() . '.csv' );
 		$csv = new CSV_Writer( $this->data_builder, 'php://output' );
 		$csv->render();
+		exit();
 	}
 
 	/**
