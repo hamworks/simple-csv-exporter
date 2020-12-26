@@ -43,9 +43,10 @@
         "hooks": {
             "before:bump": [
                 "composer install --optimize-autoloader --prefer-dist --no-dev",
-                "bash ./bin/create-release.sh simple-csv-exporter ${version}"
+                "bash ./bin/create-release.sh simple-csv-exporter ${version}",
+                "bash ./bin/create-zip.sh simple-csv-exporter"
             ],
-            "after:bump": "bash ./bin/create-zip.sh simple-csv-exporter",
+            "after:bump": "composer install --optimize-autoloader --prefer-dist",
             "after:release": "bash ./bin/cleanup.sh simple-csv-exporter"
         },
         "github": {
