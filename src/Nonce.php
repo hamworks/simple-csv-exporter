@@ -1,8 +1,10 @@
 <?php
 
-
 namespace HAMWORKS\WP\Simple_CSV_Exporter;
 
+/**
+ * Nonce management.
+ */
 class Nonce {
 
 	/**
