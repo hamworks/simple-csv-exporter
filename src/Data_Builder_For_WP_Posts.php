@@ -91,20 +91,9 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	}
 
 	/**
-	 * Bulk setter for meta keys.
-	 *
-	 * @param string[] $keys
-	 *
-	 * @deprecated 1.0.0
-	 */
-	public function set_meta_keys( array $keys ) {
-		$this->meta_keys = $keys;
-	}
-
-	/**
 	 * Add custom field key for export.
 	 *
-	 * @param string $key
+	 * @param string $key meta key.
 	 */
 	public function append_meta_key( string $key ) {
 		$this->meta_keys = array_merge( $this->meta_keys, array( $key ) );
@@ -113,21 +102,21 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	/**
 	 * Remove custom field key for export.
 	 *
-	 * @param string $key カラム名
+	 * @param string $key meta key.
 	 */
 	public function remove_meta_key( string $key ) {
 		$this->meta_keys = array_values( array_diff( $this->meta_keys, array( $key ) ) );
 	}
 
 	/**
-	 * Get term slug.
+	 * Get term slugs.
 	 *
 	 * @param WP_Post $post
 	 * @param string $taxonomy
 	 *
 	 * @return string[]
 	 */
-	private function get_the_terms_slugs( WP_Post $post, string $taxonomy ): array {
+	private function get_the_term_slugs( WP_Post $post, string $taxonomy ): array {
 		$terms = get_the_terms( $post, $taxonomy );
 		if ( ! is_array( $terms ) ) {
 			return array();
@@ -136,8 +125,16 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 		return array_map( 'urldecode', wp_list_pluck( $terms, 'slug' ) );
 	}
 
+	/**
+	 * Get terms field.
+	 *
+	 * @param WP_Post $post
+	 * @param string $taxonomy
+	 *
+	 * @return string
+	 */
 	private function get_the_terms_field( WP_Post $post, string $taxonomy ): string {
-		return join( ',', $this->get_the_terms_slugs( $post, $taxonomy ) );
+		return join( ',', $this->get_the_term_slugs( $post, $taxonomy ) );
 	}
 
 	/**
