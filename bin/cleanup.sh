@@ -11,3 +11,4 @@ name=$1
 
 rm -rf distribution
 rm ${name}.zip
+rm readme.txt
