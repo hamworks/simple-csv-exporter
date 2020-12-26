@@ -57,12 +57,13 @@ class Exporter {
 
 			$post_type_to_export = filter_input( INPUT_POST, $this->post_type_var_name, FILTER_SANITIZE_STRING );
 
-			$this->send_headers( $post_type_to_export . '.csv' );
 
 			$factory      = new Data_Builder_Factory();
 			$data_builder = $factory->create( 'WordPress', array( 'post_type' => $post_type_to_export ) );
 
 			if ( $data_builder ) {
+				$this->send_headers( $data_builder->get_name() . '.csv' );
+
 				$csv = new CSV_Writer( $data_builder, 'php://output' );
 				$csv->render();
 			} else {
