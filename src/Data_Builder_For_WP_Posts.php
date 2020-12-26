@@ -67,7 +67,13 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 * @param string $post_type target post type.
 	 */
 	public function __construct( string $post_type ) {
-		$this->post_type  = $post_type;
+		$this->post_type = $post_type;
+	}
+
+	/**
+	 * Build export data.
+	 */
+	private function build() {
 		$this->taxonomies = $this->fetch_taxonomies();
 
 		$query = new WP_Query();
@@ -101,9 +107,9 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	/**
 	 * Bulk setter for meta keys.
 	 *
-	 * @deprecated 1.0.0
-	 *
 	 * @param string[] $keys
+	 *
+	 * @deprecated 1.0.0
 	 */
 	public function set_meta_keys( array $keys ) {
 		$this->meta_keys = $keys;
@@ -167,6 +173,7 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 		/**
 		 * @param array $fields meta key and value.
 		 * @param WP_Post $post post object.
+		 *
 		 * @deprecated 1.0.0
 		 */
 		$fields = apply_filters( 'csv_exporter_data_builder_get_post_meta_fields', $fields, $post );
@@ -209,6 +216,12 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 * @return Generator
 	 */
 	public function generate_rows(): Generator {
+		if ( ! $this->post_type ) {
+			return;
+		}
+
+		$this->build();
+
 		while ( $this->query->have_posts() ) {
 			$this->query->the_post();
 			$post      = get_post();

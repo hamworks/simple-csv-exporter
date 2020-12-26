@@ -13,65 +13,52 @@ class Exporter {
 	 * @var string
 	 */
 	private $slug;
-	/**
-	 * @var string
-	 */
-	private $post_type_var_name;
+
 	/**
 	 * @var Nonce
 	 */
 	private $nonce;
 
 	/**
+	 * @var Data_Builder
+	 */
+	private $data_builder;
+
+	/**
 	 * Exporter
 	 *
-	 * @param string $slug               Slug for admin page.
-	 * @param string $post_type_var_name `name` attribute for post type select control.
+	 * @param string $slug Slug for admin page.
 	 * @param Nonce $nonce
+	 * @param Data_Builder $data_builder
 	 */
-	public function __construct( string $slug, string $post_type_var_name, Nonce $nonce ) {
-		add_action(
-			'current_screen',
-			function () {
-				$this->do_export();
-			},
-			9999
-		);
-		$this->slug               = $slug;
-		$this->post_type_var_name = $post_type_var_name;
-		$this->nonce              = $nonce;
+	public function __construct( string $slug, Nonce $nonce, Data_Builder $data_builder ) {
+		$this->slug         = $slug;
+		$this->nonce        = $nonce;
+		$this->data_builder = $data_builder;
+
+		$this->process_request();
 	}
 
-
-	private function do_export() {
-		$screen = get_current_screen();
-
-		if ( 'tools_page_' . $this->slug !== $screen->id ) {
+	private function process_request() {
+		if ( ! $this->nonce->verify() ) {
 			return;
 		}
 
-		if ( $this->nonce->verify() ) {
-			if ( ! current_user_can( 'export' ) ) {
-				wp_die( esc_html__( 'Sorry, you are not allowed to export the content of this site.', 'default' ) );
-			}
-
-			$post_type_to_export = filter_input( INPUT_POST, $this->post_type_var_name, FILTER_SANITIZE_STRING );
-
-
-			$factory      = new Data_Builder_Factory();
-			$data_builder = $factory->create( 'WordPress', array( 'post_type' => $post_type_to_export ) );
-
-			if ( $data_builder ) {
-				$this->send_headers( $data_builder->get_name() . '.csv' );
-
-				$csv = new CSV_Writer( $data_builder, 'php://output' );
-				$csv->render();
-			} else {
-				wp_die( 'No data!' );
-			}
-
-			exit();
+		if ( ! current_user_can( 'export' ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to export the content of this site.', 'default' ) );
 		}
+
+		if ( $this->data_builder ) {
+			$this->do_export();
+		} else {
+			wp_die( 'No data!' );
+		}
+	}
+
+	private function do_export() {
+		$this->send_headers( $this->data_builder->get_name() . '.csv' );
+		$csv = new CSV_Writer( $this->data_builder, 'php://output' );
+		$csv->render();
 	}
 
 	/**
@@ -84,4 +71,6 @@ class Exporter {
 		header( "Content-Disposition: attachment; filename={$file_name}" );
 		header( 'Content-Transfer-Encoding: binary' );
 	}
+
+
 }
