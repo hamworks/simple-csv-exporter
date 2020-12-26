@@ -71,25 +71,10 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	}
 
 	/**
-	 * Build export data.
+	 * @return string
 	 */
-	private function build() {
-		$this->taxonomies = $this->fetch_taxonomies();
-
-		$query = new WP_Query();
-		$query->set( 'nopaging', true );
-		$query->set( 'post_status', 'any' );
-		$query->set( 'post_type', $this->post_type );
-
-		/**
-		 * Fires after the query variable object is created, but before the actual query is run.
-		 *
-		 * @param WP_Query $query
-		 */
-		do_action( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts', $query );
-
-		$query->get_posts();
-		$this->query = $query;
+	public function get_name(): string {
+		return $this->post_type;
 	}
 
 	/**
@@ -213,6 +198,28 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	}
 
 	/**
+	 * Build export data.
+	 */
+	private function build() {
+		$this->taxonomies = $this->fetch_taxonomies();
+
+		$query = new WP_Query();
+		$query->set( 'nopaging', true );
+		$query->set( 'post_status', 'any' );
+		$query->set( 'post_type', $this->post_type );
+
+		/**
+		 * Fires after the query variable object is created, but before the actual query is run.
+		 *
+		 * @param WP_Query $query
+		 */
+		do_action( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts', $query );
+
+		$query->get_posts();
+		$this->query = $query;
+	}
+
+	/**
 	 * Row generator.
 	 *
 	 * @return Generator
@@ -247,12 +254,4 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 			);
 		}
 	}
-
-	/**
-	 * @return string
-	 */
-	public function get_name(): string {
-		return $this->post_type;
-	}
-
 }
