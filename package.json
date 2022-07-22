@@ -20,22 +20,7 @@
         "husky": "^8.0.1",
         "lint-staged": "^13.0.3"
     },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
     "lint-staged": {
-        "packages/*/package.json": [
-            "wp-scripts lint-pkg-json"
-        ],
-        "{*.css,*.scss}": [
-            "npm run lint-style"
-        ],
-        "*.js": [
-            "npm run format-js",
-            "npm run lint-js"
-        ],
         "*.php": [
             "npm run lint-php"
         ]
