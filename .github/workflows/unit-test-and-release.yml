@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         php-versions: [ '7.2', '7.4' ]
-        wp-versions: [ '5.5', 'trunk' ]
+        wp-versions: [ '5.5', '6.0' ]
     name: PHP ${{ matrix.php-versions }} / WP ${{ matrix.wp-versions }} Test on ${{ matrix.operating-system }}
     steps:
       - uses: actions/checkout@v2
@@ -53,7 +53,7 @@ jobs:
       - name: Install WordPress
         run: |
           chmod -R 767 ./ # TODO: Possibly integrate in wp-env
-          npm run wp-env start
+          WP_ENV_CORE=WordPress/WordPress#${{ matrix.php-versions }} npm run wp-env start
 
       - name: Running lint check
         run: npm run lint-php
