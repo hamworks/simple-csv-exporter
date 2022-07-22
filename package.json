@@ -8,7 +8,8 @@
         "wp-env": "wp-env",
         "test-unit-php": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/simple-csv-exporter/phpunit.xml.dist --verbose'",
         "packages-update": "wp-scripts packages-update",
-        "lint-php": "./vendor/bin/phpcs --standard=./.phpcs.xml.dist"
+        "lint-php": "./vendor/bin/phpcs --standard=./.phpcs.xml.dist",
+        "prepare": "husky install"
     },
     "repository": {
         "type": "git",
@@ -16,8 +17,8 @@
     },
     "devDependencies": {
         "@wordpress/env": "^3.0.0",
-        "lint-staged": "^10.5.3",
-        "husky": "^4.3.6"
+        "husky": "^8.0.0",
+        "lint-staged": "^10.5.3"
     },
     "husky": {
         "hooks": {
@@ -58,5 +59,9 @@
         "npm": {
             "publish": false
         }
+    },
+    "volta": {
+        "node": "14.20.0",
+        "npm": "6.14.17"
     }
 }
