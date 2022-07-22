@@ -16,12 +16,8 @@
 
 	<config name="minimum_supported_wp_version" value="5.3"/>
 	<!-- Rules: Check PHP version compatibility -->
-	<config name="testVersion" value="7.2-"/>
+	<config name="testVersion" value="7.4-"/>
 	<rule ref="PHPCompatibilityWP"/>
-
-
-	<config name="minimum_supported_wp_version" value="5.3"/>
-
 	<rule ref="WordPress">
 		<exclude name="Generic.Commenting.DocComment.MissingShort" />
 		<exclude name="Generic.Commenting.DocComment.ShortNotCapital" />
