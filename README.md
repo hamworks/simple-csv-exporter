@@ -17,6 +17,8 @@ Simple CSV Exporter. Exported CSV can be imported with [Really Simple CSV Import
 
 When you select a post type, the posts will be exported.
 
+Github Repo: [https://github.com/hamworks/simple-csv-exporter](https://github.com/hamworks/simple-csv-exporter)
+
 
 ### Customize the data to be exported
 
@@ -65,6 +67,10 @@ add_filter( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta
 ```
 
 ## Changelog
+
+### 2.0.1
+* Tested on WP 6.0
+* Drop support WP 5.7 and PHP 7.3
 
 ### 2.0.0
 * Use PHP-DI.
