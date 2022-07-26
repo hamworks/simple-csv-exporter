@@ -39,7 +39,7 @@ add_action( 'simple_csv_exporter_created_data_builder',
 Customize posts for export.
 
 ```php
-add_action( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts', 
+add_action( 'simple_csv_exporter_data_builder_for_wp_posts_pre_get_posts', 
 	function ( WP_Query $query ) {
 		$query->set( 'order', 'ASC' );
 	}
@@ -49,8 +49,7 @@ add_action( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts
 Data filter for metadata.
 
 ```php
-use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder;
-add_filter( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields',
+add_filter( 'simple_csv_exporter_data_builder_for_wp_posts_get_post_meta_fields',
 	function ( array $fields ) {
 		foreach (
 			array(
@@ -65,8 +64,26 @@ add_filter( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta
 	}
 );
 ```
+Data filter for post.
+
+```php
+add_filter(
+	'simple_csv_exporter_data_builder_for_wp_posts_row_data',
+	function ( $row_data, $post ) {
+		$row_data['permalink'] = get_permalink( $post );
+		unset( $row_data['comment_status'] );
+		return $row_data;
+	},
+	10,
+	2
+);
+```
 
 ## Changelog
+
+### 2.1.0
+* Rename hooks.
+* Add `simple_csv_exporter_data_builder_for_wp_posts_row_data` filter.
 
 ### 2.0.1
 * Tested on WP 6.0

@@ -75,6 +75,7 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 */
 	public function get_name(): string {
 		$post_type = get_post_type_object( $this->post_type );
+
 		return $post_type->label ?? '';
 	}
 
@@ -142,8 +143,17 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 		/**
 		 * @param array $fields meta key and value.
 		 * @param WP_Post $post post object.
+		 *
+		 * @deprecated 2.1.0
 		 */
-		return apply_filters( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields', $fields, $post );
+		$fields = apply_filters( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields', $fields, $post );
+
+		/**
+		 * @param array $fields meta key and value.
+		 * @param WP_Post $post post object.
+		 * @since 2.1.0
+		 */
+		return apply_filters( 'simple_csv_exporter_data_builder_for_wp_posts_get_post_meta_fields', $fields, $post );
 	}
 
 	/**
@@ -217,9 +227,19 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 		 * Fires after the query variable object is created, but before the actual query is run.
 		 *
 		 * @param WP_Query $query
+		 *
+		 * @deprecated 2.1.0
 		 */
 		do_action( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts', $query );
 
+		/**
+		 * Fires after the query variable object is created, but before the actual query is run.
+		 *
+		 * @param WP_Query $query
+		 *
+		 * @since 2.1.0
+		 */
+		do_action( 'simple_csv_exporter_data_builder_for_wp_posts_pre_get_posts', $query );
 		$query->get_posts();
 		$this->query = $query;
 	}
@@ -238,8 +258,8 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 
 		while ( $this->query->have_posts() ) {
 			$this->query->the_post();
-			$post      = get_post();
-			$post_data = array_merge(
+			$post     = get_post();
+			$row_data = array_merge(
 				$post->to_array(),
 				array(
 					'post_thumbnail' => has_post_thumbnail( $post ) ? get_the_post_thumbnail_url( $post ) : '',
@@ -250,9 +270,19 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 				$this->get_taxonomy_fields( $post )
 			);
 
+			/**
+			 * Filter for row data.
+			 *
+			 * @param array $row_data row data.
+			 * @param WP_Post $post post object.
+			 *
+			 * @since 2.1.0
+			 */
+			$row_data = apply_filters( 'simple_csv_exporter_data_builder_for_wp_posts_row_data', $row_data, $post );
+
 			// Note: 'foo' => null なものを、まとめて削除.
 			yield array_filter(
-				$post_data,
+				$row_data,
 				function ( $fields ) {
 					return is_string( $fields ) || is_numeric( $fields );
 				}
