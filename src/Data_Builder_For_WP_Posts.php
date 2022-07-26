@@ -143,6 +143,7 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 		/**
 		 * @param array $fields meta key and value.
 		 * @param WP_Post $post post object.
+		 *
 		 * @deprecated 2.1.0
 		 */
 		$fields = apply_filters( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields', $fields, $post );
