@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['7.4', '8.0']
+                php-versions: ['7.4', '8.1']
                 wp-versions: [ '5.8', '6.0' ]
         name: PHP ${{ matrix.php-versions }} / WP ${{ matrix.wp-versions }} Test on ${{ matrix.operating-system }}
         steps:
