@@ -39,7 +39,7 @@ add_action( 'simple_csv_exporter_created_data_builder',
 Customize posts for export.
 
 ```php
-add_action( 'simple_csv_exporter_created_data_builder_for_wp_posts_pre_get_posts', 
+add_action( 'simple_csv_exporter_data_builder_for_wp_posts_pre_get_posts', 
 	function ( WP_Query $query ) {
 		$query->set( 'order', 'ASC' );
 	}
@@ -50,7 +50,7 @@ Data filter for metadata.
 
 ```php
 use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder;
-add_filter( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta_fields',
+add_filter( 'simple_csv_exporter_data_builder_for_wp_posts_get_post_meta_fields',
 	function ( array $fields ) {
 		foreach (
 			array(
