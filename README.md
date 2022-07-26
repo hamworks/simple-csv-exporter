@@ -2,9 +2,9 @@
 Contributors:      Toro_Unit,hamworks  
 Donate link:       https://www.paypal.me/torounit  
 Tags:              CSV,export  
-Requires at least: 5.5  
-Tested up to:      5.6  
-Requires PHP:      7.2  
+Requires at least: 5.8  
+Tested up to:      6.0  
+Requires PHP:      7.4  
 Stable tag:        2.0.0
 License:           GPLv2 or later  
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
@@ -16,6 +16,8 @@ Simple CSV Exporter.
 Simple CSV Exporter. Exported CSV can be imported with [Really Simple CSV Importer](https://ja.wordpress.org/plugins/really-simple-csv-importer/). 
 
 When you select a post type, the posts will be exported.
+
+Github Repo: [https://github.com/hamworks/simple-csv-exporter](https://github.com/hamworks/simple-csv-exporter)
 
 
 ### Customize the data to be exported
@@ -65,6 +67,10 @@ add_filter( 'simple_csv_exporter_created_data_builder_for_wp_posts_get_post_meta
 ```
 
 ## Changelog
+
+### 2.0.1
+* Tested on WP 6.0
+* Drop support WP 5.7 and PHP 7.3
 
 ### 2.0.0
 * Use PHP-DI.

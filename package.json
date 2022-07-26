@@ -8,33 +8,19 @@
         "wp-env": "wp-env",
         "test-unit-php": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/simple-csv-exporter/phpunit.xml.dist --verbose'",
         "packages-update": "wp-scripts packages-update",
-        "lint-php": "./vendor/bin/phpcs --standard=./.phpcs.xml.dist"
+        "lint-php": "./vendor/bin/phpcs --standard=./.phpcs.xml.dist",
+        "prepare": "husky install"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/team-hamworks/simple-csv-exporter.git"
     },
     "devDependencies": {
-        "@wordpress/env": "^3.0.0",
-        "lint-staged": "^10.5.3",
-        "husky": "^4.3.6"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
+        "@wordpress/env": "^4.9.0",
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.3"
     },
     "lint-staged": {
-        "packages/*/package.json": [
-            "wp-scripts lint-pkg-json"
-        ],
-        "{*.css,*.scss}": [
-            "npm run lint-style"
-        ],
-        "*.js": [
-            "npm run format-js",
-            "npm run lint-js"
-        ],
         "*.php": [
             "npm run lint-php"
         ]
@@ -58,5 +44,9 @@
         "npm": {
             "publish": false
         }
+    },
+    "volta": {
+        "node": "14.20.0",
+        "npm": "6.14.17"
     }
 }

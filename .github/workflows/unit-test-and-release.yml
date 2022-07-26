@@ -1,101 +1,92 @@
 name: Unit test and Release
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
 
-  test:
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: wordpress_test
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    strategy:
-      matrix:
-        php-versions: [ '7.2', '7.4' ]
-        wp-versions: [ '5.5', 'trunk' ]
-    name: PHP ${{ matrix.php-versions }} / WP ${{ matrix.wp-versions }} Test on ${{ matrix.operating-system }}
-    steps:
-      - uses: actions/checkout@v2
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-versions: ['7.4', '8.0']
+                wp-versions: [ '5.8', '6.0' ]
+        name: PHP ${{ matrix.php-versions }} / WP ${{ matrix.wp-versions }} Test on ${{ matrix.operating-system }}
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
+            - name: Use Node.js 14.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '14'
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, intl #optional, setup extensions
-          ini-values: post_max_size=256M, short_open_tag=On #optional, setup php.ini configuration
-          coverage: xdebug #optional, setup coverage driver
+            - name: npm install
+              run: npm ci
 
-      - name: Check PHP Version
-        run: php -v
+            - name: Build
+              run: |
+                  bash ./bin/build.sh
 
-      - name: Composer install
-        run: composer install --optimize-autoloader --prefer-dist
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: mbstring, intl #optional, setup extensions
+                  ini-values: post_max_size=256M, short_open_tag=On #optional, setup php.ini configuration
 
-      - name: npm install
-        run: npm ci
+            - name: Composer install
+              run: composer install --optimize-autoloader --prefer-dist
 
-      - name: Build
-        run: |
-          bash ./bin/build.sh
+            - name: Install WordPress
+              run: |
+                  chmod -R 767 ./ # TODO: Possibly integrate in wp-env
+                  WP_ENV_PHP_VERSION=${{ matrix.php-versions }} WP_ENV_CORE=WordPress/WordPress#${{ matrix.wp-versions }} npm run wp-env start
 
-      - name: Install WordPress
-        run: |
-          chmod -R 767 ./ # TODO: Possibly integrate in wp-env
-          npm run wp-env start
+            - name: Running lint check
+              run: npm run lint-php
 
-      - name: Running lint check
-        run: npm run lint-php
+            - name: Running single site unit tests
+              run: npm run test-unit-php
+              if: ${{ success() || failure() }}
 
-      - name: Running single site unit tests
-        run: npm run test-unit-php
-        if: ${{ success() || failure() }}
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        needs: [ test ]
+        steps:
+            - uses: actions/checkout@v3
+              if: contains(github.ref, 'tags/')
 
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    needs: [test]
-    steps:
-      - uses: actions/checkout@v2
-        if: contains(github.ref, 'tags/')
+            - name: Use Node.js 14.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '14'
+              if: contains(github.ref, 'tags/')
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.3
-          extensions: mbstring, intl #optional, setup extensions
-          ini-values: post_max_size=256M, short_open_tag=On #optional, setup php.ini configuration
-          coverage: xdebug #optional, setup coverage driver
-        if: contains(github.ref, 'tags/')
+            - name: npm install
+              run: npm ci
+              if: contains(github.ref, 'tags/')
 
-      - name: Check PHP Version
-        run: php -v
-        if: contains(github.ref, 'tags/')
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.4
+                  extensions: mbstring, intl #optional, setup extensions
+                  ini-values: post_max_size=256M, short_open_tag=On #optional, setup php.ini configuration
+                  coverage: xdebug #optional, setup coverage driver
+              if: contains(github.ref, 'tags/')
 
-      - name: Composer install
-        run: composer install --optimize-autoloader --prefer-dist --no-dev
-        if: contains(github.ref, 'tags/')
+            - name: Composer install
+              run: composer install --optimize-autoloader --prefer-dist --no-dev
+              if: contains(github.ref, 'tags/')
 
-      - name: Build
-        run: |
-          bash ./bin/build.sh
-        if: contains(github.ref, 'tags/')
+            - name: Build
+              run: |
+                  bash ./bin/build.sh
+              if: contains(github.ref, 'tags/')
 
-      - name: WordPress Plugin Deploy
-        if: contains(github.ref, 'tags/')
-        uses: 10up/action-wordpress-plugin-deploy@stable
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SLUG: simple-csv-exporter
+            - name: WordPress Plugin Deploy
+              if: contains(github.ref, 'tags/')
+              uses: 10up/action-wordpress-plugin-deploy@stable
+              env:
+                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+                  SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+                  SLUG: simple-csv-exporter
