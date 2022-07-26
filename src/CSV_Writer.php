@@ -12,12 +12,12 @@ class CSV_Writer {
 	 *
 	 * @var string
 	 */
-	private $file_name;
+	private string $file_name;
 
 	/**
 	 * @var iterable
 	 */
-	private $rows;
+	private iterable $rows;
 
 	/**
 	 * CSV_Builder constructor.

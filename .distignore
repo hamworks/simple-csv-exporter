@@ -4,6 +4,7 @@
 .gitignore
 .npmrc
 .git
+.husky
 .idea
 .travis.yml
 .DS_Store

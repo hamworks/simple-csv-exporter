@@ -44,7 +44,7 @@ class Container_Factory {
 					}
 				)->parameter( 'post_type', get( 'post_type' ) ),
 				Admin_UI::class     => autowire()->constructor( get( 'slug' ), get( 'var.name' ) ),
-				Exporter::class     => autowire()->constructor( get( 'slug' ) ),
+				Exporter::class     => autowire()->constructor(),
 			)
 		);
 

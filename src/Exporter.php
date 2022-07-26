@@ -9,29 +9,22 @@ namespace HAMWORKS\WP\Simple_CSV_Exporter;
  */
 class Exporter {
 	/**
-	 * @var string
-	 */
-	private $slug;
-
-	/**
 	 * @var Nonce
 	 */
-	private $nonce;
+	private Nonce $nonce;
 
 	/**
 	 * @var Data_Builder
 	 */
-	private $data_builder;
+	private Data_Builder $data_builder;
 
 	/**
 	 * Exporter
 	 *
-	 * @param string $slug Slug for admin page.
 	 * @param Nonce $nonce
 	 * @param Data_Builder $data_builder
 	 */
-	public function __construct( string $slug, Nonce $nonce, Data_Builder $data_builder ) {
-		$this->slug         = $slug;
+	public function __construct( Nonce $nonce, Data_Builder $data_builder ) {
 		$this->nonce        = $nonce;
 		$this->data_builder = $data_builder;
 

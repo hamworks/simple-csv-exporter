@@ -12,17 +12,17 @@ class Admin_UI {
 	/**
 	 * @var string
 	 */
-	private $slug;
+	private string $slug;
 
 	/**
 	 * @var Nonce
 	 */
-	private $nonce;
+	private Nonce $nonce;
 
 	/**
 	 * @var string
 	 */
-	private $post_type_var_name;
+	private string $post_type_var_name;
 
 	/**
 	 * Admin_UI constructor.
