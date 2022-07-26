@@ -18,7 +18,7 @@ abstract class Data_Builder implements IteratorAggregate {
 	 *
 	 * @var string[]
 	 */
-	protected $drop_columns = array();
+	protected array $drop_columns = array();
 
 
 	/**
@@ -56,7 +56,7 @@ abstract class Data_Builder implements IteratorAggregate {
 	/**
 	 * @return Traversable
 	 */
-	abstract protected function rows();
+	abstract protected function rows(): Traversable;
 
 	/**
 	 * Iterator

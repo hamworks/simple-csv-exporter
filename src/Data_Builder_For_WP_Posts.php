@@ -17,14 +17,14 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 *
 	 * @var string
 	 */
-	private $post_type;
+	private string $post_type;
 
 	/**
 	 * Post field keys to be removed.
 	 *
 	 * @var string[]
 	 */
-	protected $drop_columns = array(
+	protected array $drop_columns = array(
 		'post_date_gmt',
 		'ping_status',
 		'to_ping',
@@ -45,21 +45,21 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 *
 	 * @var string[]
 	 */
-	private $meta_keys = array();
+	private array $meta_keys = array();
 
 	/**
 	 * Taxonomies
 	 *
 	 * @var WP_Taxonomy[]
 	 */
-	private $taxonomies;
+	private array $taxonomies;
 
 	/**
 	 * Posts query for export.
 	 *
 	 * @var WP_Query
 	 */
-	private $query;
+	private WP_Query $query;
 
 	/**
 	 * CSV_Generator constructor.
