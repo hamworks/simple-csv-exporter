@@ -10,7 +10,7 @@
  * Text Domain:     wp-csv-exporter
  * Domain Path:     /languages
  * Requires PHP:    7.4
- * Version: 2.0.1
+ * Version: 2.1.0
  */
 
 use HAMWORKS\WP\Simple_CSV_Exporter\Simple_CSV_Exporter;
