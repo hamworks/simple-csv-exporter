@@ -6,7 +6,7 @@
     "license": "GPL-3.0+",
     "scripts": {
         "wp-env": "wp-env",
-        "test-unit-php": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/simple-csv-exporter/phpunit.xml.dist --verbose'",
+        "test-unit-php": "wp-env run --env-cwd='wp-content/plugins/simple-csv-exporter' tests-wordpress vendor/bin/phpunit -c phpunit.xml.dist --verbose",
         "packages-update": "wp-scripts packages-update",
         "lint-php": "./vendor/bin/phpcs --standard=./.phpcs.xml.dist",
         "prepare": "husky install"
