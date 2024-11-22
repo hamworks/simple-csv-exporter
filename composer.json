@@ -32,6 +32,9 @@
         "phpcs": "phpcs --standard=./.phpcs.xml.dist"
     },
     "config": {
+        "platform": {
+            "php": "8.2.26"
+        },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
