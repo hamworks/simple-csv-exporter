@@ -289,6 +289,4 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 			);
 		}
 	}
-
-
 }

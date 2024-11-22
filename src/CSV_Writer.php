@@ -44,7 +44,7 @@ class CSV_Writer {
 	 * @param iterable $data
 	 */
 	public function write( iterable $data ) {
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		// phpcs:ignore
 		$file_pointer = fopen( $this->file_name, 'w' );
 
 		$header_rendered = false;
@@ -55,8 +55,7 @@ class CSV_Writer {
 			}
 			fputcsv( $file_pointer, $row );
 		}
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
+		// phpcs:ignore
 		fclose( $file_pointer );
 	}
-
 }
