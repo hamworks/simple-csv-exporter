@@ -96,5 +96,4 @@ class Admin_UI {
 		</div>
 		<?php
 	}
-
 }

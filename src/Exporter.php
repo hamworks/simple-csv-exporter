@@ -64,6 +64,4 @@ class Exporter {
 		header( "Content-Disposition: attachment; filename={$file_name}" );
 		header( 'Content-Transfer-Encoding: binary' );
 	}
-
-
 }

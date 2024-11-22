@@ -258,6 +258,4 @@ class Data_Builder_For_WP_Posts_Test extends WP_UnitTestCase {
 			$this->assertEquals( '42', $row['flag_for_test_3'] );
 		}
 	}
-
-
 }
