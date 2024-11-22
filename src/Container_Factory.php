@@ -27,7 +27,7 @@ class Container_Factory {
 				'var.name'          => 'post_type_to_export',
 				'slug'              => 'simple_csv_exporter',
 				'post_type'         => function ( ContainerInterface $c ) {
-					return filter_input( INPUT_POST, $c->get( 'var.name' ), FILTER_SANITIZE_STRING ) ?? '';
+					return filter_input( INPUT_POST, $c->get( 'var.name' ), FILTER_SANITIZE_SPECIAL_CHARS ) ?? '';
 				},
 				Nonce::class        => create()->constructor( get( 'slug' ) ),
 				Data_Builder::class => factory(
