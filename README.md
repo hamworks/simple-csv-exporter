@@ -3,7 +3,7 @@ Contributors:      Toro_Unit,hamworks
 Donate link:       https://www.paypal.me/torounit  
 Tags:              CSV,export  
 Requires at least: 5.8  
-Tested up to:      6.0  
+Tested up to:      6.7  
 Requires PHP:      7.4  
 Stable tag:        2.1.5
 License:           GPLv2 or later  
