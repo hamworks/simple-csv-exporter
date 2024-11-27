@@ -60,15 +60,13 @@ class Admin_UI {
 	}
 
 	/**
+	 * Get post type objects.
+	 *
 	 * @return WP_Post_Type[]
 	 */
 	private function get_post_types() {
 		return array_merge(
-			array(
-				get_post_type_object( 'post' ),
-				get_post_type_object( 'page' ),
-				get_post_type_object( 'attachment' ),
-			),
+			array_map( 'get_post_type_object', array( 'post', 'page', 'attachment' ) ),
 			get_post_types(
 				array(
 					'_builtin'   => false,
