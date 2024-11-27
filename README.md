@@ -81,6 +81,9 @@ add_filter(
 
 ## Changelog
 
+### 2.1.7
+* Fix taxonomy export.
+
 ### 2.1.0
 * Rename hooks.
 * Add `simple_csv_exporter_data_builder_for_wp_posts_row_data` filter.
