@@ -27,7 +27,7 @@ class Admin_UI {
 	/**
 	 * Admin_UI constructor.
 	 *
-	 * @param string $slug               Slug for admin page.
+	 * @param string $slug Slug for admin page.
 	 * @param string $post_type_var_name `name` attribute for post type select control.
 	 * @param Nonce $nonce
 	 */
@@ -43,6 +43,9 @@ class Admin_UI {
 		$this->post_type_var_name = $post_type_var_name;
 	}
 
+	/**
+	 * Register admin page.
+	 */
 	private function register() {
 		add_management_page(
 			esc_html__( 'CSV Export', 'simple-csv-exporter' ),
@@ -52,6 +55,26 @@ class Admin_UI {
 			array(
 				$this,
 				'render',
+			)
+		);
+	}
+
+	/**
+	 * @return WP_Post_Type[]
+	 */
+	private function get_post_types() {
+		return array_merge(
+			array(
+				get_post_type_object( 'post' ),
+				get_post_type_object( 'page' ),
+				get_post_type_object( 'attachment' ),
+			),
+			get_post_types(
+				array(
+					'_builtin'   => false,
+					'can_export' => true,
+				),
+				'objects'
 			)
 		);
 	}
@@ -79,8 +102,7 @@ class Admin_UI {
 									name="<?php echo esc_attr( $this->post_type_var_name ); ?>"
 								>
 									<?php
-									/** @var WP_Post_Type $post_type */
-									foreach ( get_post_types( array( 'can_export' => true ), 'objects' ) as $post_type ) :
+									foreach ( $this->get_post_types() as $post_type ) :
 										?>
 										<option value="<?php echo esc_attr( $post_type->name ); ?>"><?php echo esc_html( $post_type->label ); ?></option>
 										<?php
