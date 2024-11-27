@@ -92,9 +92,12 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 * @return string[]|WP_Taxonomy[]
 	 */
 	private function fetch_taxonomies(): array {
-		return get_taxonomies(
-			post_type_exists( $this->post_type ) ? array( 'object_type' => array( $this->post_type ) ) : array(),
-			'objects'
+		$taxonomies = get_taxonomies( array(), 'objects' );
+		return array_filter(
+			$taxonomies,
+			function ( WP_Taxonomy $taxonomy ) {
+				return in_array( $this->post_type, $taxonomy->object_type, true );
+			}
 		);
 	}
 
