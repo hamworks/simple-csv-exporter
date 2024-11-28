@@ -49,8 +49,16 @@ class Exporter {
 
 	private function do_export() {
 		$this->send_headers( $this->data_builder->get_name() . '.csv' );
-		$csv = new CSV_Writer( $this->data_builder, 'php://output' );
-		$csv->render();
+		$csv = new CSV_Writer();
+		$csv->set_rows( $this->data_builder );
+		$csv->set_file_name( 'php://output' );
+
+		try {
+			$csv->render();
+		} catch ( \Exception $e ) {
+			wp_die( esc_html( $e->getMessage() ) );
+		}
+
 		exit();
 	}
 

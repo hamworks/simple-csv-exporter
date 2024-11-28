@@ -20,20 +20,28 @@ class CSV_Writer {
 	private iterable $rows;
 
 	/**
-	 * CSV_Builder constructor.
-	 *
-	 * @param iterable $rows
 	 * @param string $file_name
 	 */
-	public function __construct( iterable $rows, string $file_name ) {
-		$this->rows      = $rows;
+	public function set_file_name( string $file_name ): void {
 		$this->file_name = $file_name;
 	}
 
 	/**
+	 * @param iterable $rows
+	 */
+	public function set_rows( iterable $rows ): void {
+		$this->rows = $rows;
+	}
+
+	/**
 	 * Render.
+	 *
+	 * @throws \Exception
 	 */
 	public function render() {
+		if ( ! $this->file_name || ! $this->rows ) {
+			throw new \Exception( 'File name or rows are not set.' );
+		}
 		$this->write( $this->rows );
 	}
 
