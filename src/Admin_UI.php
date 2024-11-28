@@ -109,6 +109,23 @@ class Admin_UI {
 								</select>
 							</td>
 						</tr>
+						<tr>
+							<th scope="row">
+								<label for="encoding">
+									<?php esc_html_e( 'Encoding', 'simple-csv-exporter' ); ?>
+								</label>
+							</th>
+							<td>
+								<select id="encoding" name="encoding">
+									<option value="UTF-8">
+										<?php esc_html_e( 'UTF-8', 'simple-csv-exporter' ); ?>
+									</option>
+									<option value="UTF-8_with_BOM">
+										<?php esc_html_e( 'UTF-8 with BOM', 'simple-csv-exporter' ); ?>
+									</option>
+								</select>
+							</td>
+						</tr>
 					</table>
 					<?php submit_button( esc_html__( 'Export', 'simple-csv-exporter' ) ); ?>
 				</form>
