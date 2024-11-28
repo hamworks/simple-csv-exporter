@@ -185,7 +185,8 @@ class Data_Builder_For_WP_Posts extends Data_Builder {
 	 * @return string
 	 */
 	private function get_the_terms_field( WP_Post $post, string $taxonomy ): string {
-		return join( ',', $this->get_the_term_slugs( $post, $taxonomy ) );
+		$fields = join( ',', $this->get_the_term_slugs( $post, $taxonomy ) );
+		return apply_filters( 'simple_csv_exporter_data_builder_for_wp_posts_get_the_terms_field', $fields, $post, $taxonomy );
 	}
 
 
