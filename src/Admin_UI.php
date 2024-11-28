@@ -87,7 +87,7 @@ class Admin_UI {
 			<div id="csv_export" class="wrap">
 				<form method="post">
 					<?php $this->nonce->render(); ?>
-					<table>
+					<table class="form-table">
 						<tr>
 							<th scope="row">
 								<label for="<?php echo esc_attr( $this->post_type_var_name ); ?>">
