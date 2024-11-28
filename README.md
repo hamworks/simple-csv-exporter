@@ -81,6 +81,9 @@ add_filter(
 
 ## Changelog
 
+### 2.2.0
+* Add `simple_csv_exporter_data_builder_for_wp_posts_get_the_terms_field` filter.
+
 ### 2.1.7
 * Fix taxonomy export.
 
