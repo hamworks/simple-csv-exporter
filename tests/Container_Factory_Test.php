@@ -5,6 +5,7 @@ namespace HAMWORKS\WP\Simple_CSV_Exporter\Tests;
 use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder;
 use HAMWORKS\WP\Simple_CSV_Exporter\Data_Builder_For_WP_Posts;
 use HAMWORKS\WP\Simple_CSV_Exporter\Container_Factory;
+use HAMWORKS\WP\Simple_CSV_Exporter\Request;
 use WP_UnitTestCase;
 
 /**
@@ -13,22 +14,35 @@ use WP_UnitTestCase;
 class Container_Factory_Test extends WP_UnitTestCase {
 
 	public function test_create() {
-		$container = Container_Factory::create();
-		$container->set( 'post_type', 'post' );
+
+		$mock = $this->createMock( Request::class );
+		$mock->method( 'get_post_type_to_export' )
+			->willReturn( 'post' );
+
+		$container = Container_Factory::create( 'test' );
+		$container->set( Request::class, $mock );
 		$data = $container->get( Data_Builder::class );
 		$this->assertInstanceOf( Data_Builder_For_WP_Posts::class, $data );
 		$this->assertEquals( 'Posts', $data->get_name() );
 	}
 
 	public function test_create_page() {
-		$container = Container_Factory::create();
-		$container->set( 'post_type', 'page' );
+		$mock = $this->createMock( Request::class );
+		$mock->method( 'get_post_type_to_export' )
+			->willReturn( 'page' );
+
+		$container = Container_Factory::create( 'test' );
+		$container->set( Request::class, $mock );
 		$data = $container->get( Data_Builder::class );
 		$this->assertInstanceOf( Data_Builder_For_WP_Posts::class, $data );
 		$this->assertEquals( 'Pages', $data->get_name() );
 	}
 
 	public function test_action_simple_csv_exporter_created_data_builder() {
+		$mock = $this->createMock( Request::class );
+		$mock->method( 'get_post_type_to_export' )
+			->willReturn( 'post' );
+
 		add_action(
 			'simple_csv_exporter_created_data_builder',
 			function ( Data_Builder $data ) {
@@ -40,8 +54,9 @@ class Container_Factory_Test extends WP_UnitTestCase {
 		);
 		$this->factory()->post->create_many( 2 );
 
-		$container = Container_Factory::create();
-		$container->set( 'post_type', 'post' );
+		$container = Container_Factory::create( 'test' );
+
+		$container->set( Request::class, $mock );
 		$data = $container->get( Data_Builder::class );
 		foreach ( $data as $row ) {
 			$this->assertArrayNotHasKey( 'page_template', $row );

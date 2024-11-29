@@ -17,22 +17,19 @@ use function DI\get;
 class Container_Factory {
 
 	/**
+	 * @param string $slug
+	 *
 	 * @return Container
 	 * @throws Exception
 	 */
-	public static function create(): Container {
+	public static function create( string $slug ): Container {
 		$builder = new ContainerBuilder();
 		$builder->addDefinitions(
 			array(
-				'var.name'          => 'post_type_to_export',
-				'slug'              => 'simple_csv_exporter',
-				'post_type'         => function ( ContainerInterface $c ) {
-					return filter_input( INPUT_POST, $c->get( 'var.name' ), FILTER_SANITIZE_SPECIAL_CHARS ) ?? '';
-				},
-				Nonce::class        => create()->constructor( get( 'slug' ) ),
+				Nonce::class        => create()->constructor( $slug ),
 				Data_Builder::class => factory(
-					function ( $post_type ) {
-						$data_builder = new Data_Builder_For_WP_Posts( $post_type );
+					function ( Request $request ) {
+						$data_builder = new Data_Builder_For_WP_Posts( $request->get_post_type_to_export() );
 
 						/**
 						 * Fires after data generator is created, but before export.
@@ -40,11 +37,30 @@ class Container_Factory {
 						 * @param Data_Builder $data
 						 */
 						do_action( 'simple_csv_exporter_created_data_builder', $data_builder );
+
 						return $data_builder;
 					}
-				)->parameter( 'post_type', get( 'post_type' ) ),
-				Admin_UI::class     => autowire()->constructor( get( 'slug' ), get( 'var.name' ) ),
-				Exporter::class     => autowire()->constructor(),
+				),
+				CSV_Writer::class   => factory(
+					function ( Request $request ) {
+						if ( $request->get_encoding() === Encodings::UTF8_WITH_BOM['name'] ) {
+							$csv_writer = new CSV_Writer_With_BOM();
+						} else {
+							$csv_writer = new CSV_Writer();
+						}
+
+						/**
+						 * Fires after data generator is created, but before export.
+						 *
+						 * @param CSV_Writer $csv_writer
+						 */
+						do_action( 'simple_csv_exporter_created_csv_writer', $csv_writer );
+
+						return $csv_writer;
+					}
+				),
+				Admin_UI::class     => autowire()->constructor( $slug ),
+				Exporter::class     => autowire(),
 			)
 		);
 

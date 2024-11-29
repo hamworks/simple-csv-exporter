@@ -9,18 +9,20 @@ use Exception;
  */
 class Simple_CSV_Exporter {
 
+	const SLUG = 'simple_csv_exporter';
+
 	/**
 	 * Admin constructor.
 	 *
 	 * @throws Exception
 	 */
 	public function __construct() {
-		$container = Container_Factory::create();
+
+		$container = Container_Factory::create( self::SLUG );
 		$container->get( Admin_UI::class );
 
-		$slug = $container->get( 'slug' );
 		add_action(
-			"load-tools_page_{$slug}",
+			'load-tools_page_' . self::SLUG,
 			function () use ( $container ) {
 				$container->get( Exporter::class );
 			}
