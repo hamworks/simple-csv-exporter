@@ -38,7 +38,9 @@ A,B
 CSV;
 
 		$this->expectOutputString( $expect );
-		$csv = new CSV_Writer( $data, 'php://output' );
+		$csv = new CSV_Writer();
+		$csv->set_file_name( 'php://output' );
+		$csv->set_rows( $data );
 		$csv->write( $data );
 	}
 
@@ -69,8 +71,9 @@ A,B
 
 CSV;
 
-		$csv = new CSV_Writer( $data, '/tmp/test.csv' );
-		$csv->write( $data );
+		$csv = new CSV_Writer();
+		$csv->set_file_name( 'php://output' );
+		$csv->set_rows( $data );
 		$this->assertFileExists( '/tmp/test.csv' );
 		$this->assertIsReadable( '/tmp/test.csv' );
 		$this->assertStringEqualsFile( '/tmp/test.csv', $expect );
