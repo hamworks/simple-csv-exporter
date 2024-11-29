@@ -58,7 +58,7 @@ class Container_Factory {
 						return $csv_writer;
 					}
 				),
-				Admin_UI::class           => autowire()->constructor( $slug, get( 'var.post_type_to_export' ), get( 'var.encoding' ) ),
+				Admin_UI::class           => autowire()->constructor( $slug ),
 				Exporter::class           => autowire(),
 			)
 		);

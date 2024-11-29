@@ -20,34 +20,27 @@ class Admin_UI {
 	private Nonce $nonce;
 
 	/**
-	 * @var string
+	 * @var Request
 	 */
-	private string $post_type_var_name;
-
-	/**
-	 * @var string
-	 */
-	private string $encoding_var_name;
+	private Request $request;
 
 	/**
 	 * Admin_UI constructor.
 	 *
 	 * @param string $slug Slug for admin page.
-	 * @param string $post_type_var_name `name` attribute for post type select control.
-	 * @param string $encoding_var_name encoding key.
+	 * @param Request $request
 	 * @param Nonce $nonce
 	 */
-	public function __construct( string $slug, string $post_type_var_name, string $encoding_var_name, Nonce $nonce ) {
+	public function __construct( string $slug, Request $request, Nonce $nonce ) {
 		add_action(
 			'admin_menu',
 			function () {
 				$this->register();
 			}
 		);
-		$this->slug               = $slug;
-		$this->nonce              = $nonce;
-		$this->post_type_var_name = $post_type_var_name;
-		$this->encoding_var_name  = $encoding_var_name;
+		$this->slug    = $slug;
+		$this->nonce   = $nonce;
+		$this->request = $request;
 	}
 
 	/**
@@ -97,14 +90,14 @@ class Admin_UI {
 					<table class="form-table">
 						<tr>
 							<th scope="row">
-								<label for="<?php echo esc_attr( $this->post_type_var_name ); ?>">
+								<label for="<?php echo esc_attr( $this->request::POST_TYPE_TO_EXPORT ); ?>">
 									<?php esc_html_e( 'Export', 'simple-csv-exporter' ); ?>
 								</label>
 							</th>
 							<td>
 								<select
-									id="<?php echo esc_attr( $this->post_type_var_name ); ?>"
-									name="<?php echo esc_attr( $this->post_type_var_name ); ?>"
+									id="<?php echo esc_attr( $this->request::POST_TYPE_TO_EXPORT ); ?>"
+									name="<?php echo esc_attr( $this->request::POST_TYPE_TO_EXPORT ); ?>"
 								>
 									<?php
 									foreach ( $this->get_post_types() as $post_type ) :
@@ -118,14 +111,14 @@ class Admin_UI {
 						</tr>
 						<tr>
 							<th scope="row">
-								<label for="<?php echo esc_attr( $this->encoding_var_name ); ?>">
+								<label for="<?php echo esc_attr( $this->request::ENCODING ); ?>">
 									<?php esc_html_e( 'Encoding', 'simple-csv-exporter' ); ?>
 								</label>
 							</th>
 							<td>
 								<select
-									id="<?php echo esc_attr( $this->encoding_var_name ); ?>"
-									name="<?php echo esc_attr( $this->encoding_var_name ); ?>">
+									id="<?php echo esc_attr( $this->request::ENCODING ); ?>"
+									name="<?php echo esc_attr( $this->request::ENCODING ); ?>">
 									<option value="UTF-8">
 										<?php esc_html_e( 'UTF-8', 'simple-csv-exporter' ); ?>
 									</option>
