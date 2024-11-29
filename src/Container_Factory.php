@@ -5,11 +5,9 @@ namespace HAMWORKS\WP\Simple_CSV_Exporter;
 use DI\Container;
 use DI\ContainerBuilder;
 use Exception;
-use Psr\Container\ContainerInterface;
 use function DI\autowire;
 use function DI\create;
 use function DI\factory;
-use function DI\get;
 
 /**
  * DI Container Factory
