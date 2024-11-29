@@ -11,13 +11,13 @@ class CSV_Writer_With_BOM extends CSV_Writer {
 	 *
 	 * @param iterable $data
 	 */
-	public function write( iterable $data ) {
+	public function write() {
 		// phpcs:ignore
 		$file_pointer = fopen( $this->file_name, 'w' );
 		// phpcs:ignore
 		fwrite( $file_pointer, pack( 'C*', 0xEF, 0xBB, 0xBF ) );
 		$header_rendered = false;
-		foreach ( $data as $row ) {
+		foreach ( $this->rows as $row ) {
 			if ( ! $header_rendered ) {
 				fputcsv( $file_pointer, array_keys( $row ) );
 				$header_rendered = true;
