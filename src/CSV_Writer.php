@@ -20,6 +20,21 @@ class CSV_Writer {
 	protected iterable $rows;
 
 	/**
+	 * CSV_Builder constructor.
+	 *
+	 * @param iterable|null $rows
+	 * @param string|null $file_name
+	 */
+	public function __construct( iterable $rows = null, string $file_name = null ) {
+		if ( $rows ) {
+			$this->rows = $rows;
+		}
+		if ( $file_name ) {
+			$this->file_name = $file_name;
+		}
+	}
+
+	/**
 	 * @param string $file_name
 	 */
 	public function set_file_name( string $file_name ): void {

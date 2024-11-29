@@ -72,7 +72,6 @@ A,B
 CSV;
 
 		$csv = new CSV_Writer();
-		$csv->set_rows( $data );
 		$csv->set_file_name( '/tmp/test.csv' );
 		$csv->write( $data );
 		$this->assertFileExists( '/tmp/test.csv' );
