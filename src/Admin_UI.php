@@ -25,13 +25,19 @@ class Admin_UI {
 	private string $post_type_var_name;
 
 	/**
+	 * @var string
+	 */
+	private string $encoding_var_name;
+
+	/**
 	 * Admin_UI constructor.
 	 *
 	 * @param string $slug Slug for admin page.
 	 * @param string $post_type_var_name `name` attribute for post type select control.
+	 * @param string $encoding_var_name encoding key.
 	 * @param Nonce $nonce
 	 */
-	public function __construct( string $slug, string $post_type_var_name, Nonce $nonce ) {
+	public function __construct( string $slug, string $post_type_var_name, string $encoding_var_name, Nonce $nonce ) {
 		add_action(
 			'admin_menu',
 			function () {
@@ -41,6 +47,7 @@ class Admin_UI {
 		$this->slug               = $slug;
 		$this->nonce              = $nonce;
 		$this->post_type_var_name = $post_type_var_name;
+		$this->encoding_var_name  = $encoding_var_name;
 	}
 
 	/**
@@ -111,12 +118,14 @@ class Admin_UI {
 						</tr>
 						<tr>
 							<th scope="row">
-								<label for="encoding">
+								<label for="<?php echo esc_attr( $this->encoding_var_name ); ?>">
 									<?php esc_html_e( 'Encoding', 'simple-csv-exporter' ); ?>
 								</label>
 							</th>
 							<td>
-								<select id="encoding" name="encoding">
+								<select
+									id="<?php echo esc_attr( $this->encoding_var_name ); ?>"
+									name="<?php echo esc_attr( $this->encoding_var_name ); ?>">
 									<option value="UTF-8">
 										<?php esc_html_e( 'UTF-8', 'simple-csv-exporter' ); ?>
 									</option>

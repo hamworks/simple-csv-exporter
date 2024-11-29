@@ -19,14 +19,21 @@ class Exporter {
 	private Data_Builder $data_builder;
 
 	/**
+	 * @var CSV_Writer
+	 */
+	private CSV_Writer $csv_writer;
+
+	/**
 	 * Exporter
 	 *
 	 * @param Nonce $nonce
 	 * @param Data_Builder $data_builder
+	 * @param CSV_Writer $csv_writer
 	 */
-	public function __construct( Nonce $nonce, Data_Builder $data_builder ) {
+	public function __construct( Nonce $nonce, Data_Builder $data_builder, CSV_Writer $csv_writer ) {
 		$this->nonce        = $nonce;
 		$this->data_builder = $data_builder;
+		$this->csv_writer   = $csv_writer;
 
 		$this->process_request();
 	}
@@ -49,12 +56,11 @@ class Exporter {
 
 	private function do_export() {
 		$this->send_headers( $this->data_builder->get_name() . '.csv' );
-		$csv = new CSV_Writer();
-		$csv->set_rows( $this->data_builder );
-		$csv->set_file_name( 'php://output' );
+		$this->csv_writer->set_rows( $this->data_builder );
+		$this->csv_writer->set_file_name( 'php://output' );
 
 		try {
-			$csv->render();
+			$this->csv_writer->render();
 		} catch ( \Exception $e ) {
 			wp_die( esc_html( $e->getMessage() ) );
 		}

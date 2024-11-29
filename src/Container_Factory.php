@@ -24,13 +24,14 @@ class Container_Factory {
 		$builder = new ContainerBuilder();
 		$builder->addDefinitions(
 			array(
-				'var.name'          => 'post_type_to_export',
-				'slug'              => 'simple_csv_exporter',
-				'post_type'         => function ( ContainerInterface $c ) {
-					return filter_input( INPUT_POST, $c->get( 'var.name' ), FILTER_SANITIZE_SPECIAL_CHARS ) ?? '';
+				'var.post_type_to_export' => 'post_type_to_export',
+				'var.encoding'            => 'encoding',
+				'slug'                    => 'simple_csv_exporter',
+				'post_type'               => function ( ContainerInterface $c ) {
+					return filter_input( INPUT_POST, $c->get( 'var.post_type_to_export' ), FILTER_SANITIZE_SPECIAL_CHARS ) ?? '';
 				},
-				Nonce::class        => create()->constructor( get( 'slug' ) ),
-				Data_Builder::class => factory(
+				Nonce::class              => create()->constructor( get( 'slug' ) ),
+				Data_Builder::class       => factory(
 					function ( $post_type ) {
 						$data_builder = new Data_Builder_For_WP_Posts( $post_type );
 
@@ -43,8 +44,21 @@ class Container_Factory {
 						return $data_builder;
 					}
 				)->parameter( 'post_type', get( 'post_type' ) ),
-				Admin_UI::class     => autowire()->constructor( get( 'slug' ), get( 'var.name' ) ),
-				Exporter::class     => autowire()->constructor(),
+				CSV_Writer::class         => factory(
+					function () {
+						$csv_writer = new CSV_Writer();
+
+						/**
+						 * Fires after data generator is created, but before export.
+						 *
+						 * @param Data_Builder $data
+						 */
+						do_action( 'simple_csv_exporter_created_csv_writer', $csv_writer );
+						return $csv_writer;
+					}
+				),
+				Admin_UI::class           => autowire()->constructor( get( 'slug' ), get( 'var.post_type_to_export' ), get( 'var.encoding' ) ),
+				Exporter::class           => autowire(),
 			)
 		);
 
