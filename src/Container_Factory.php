@@ -28,8 +28,8 @@ class Container_Factory {
 			array(
 				Nonce::class        => create()->constructor( $slug ),
 				Data_Builder::class => factory(
-					function ( ContainerInterface $c ) {
-						$data_builder = new Data_Builder_For_WP_Posts( $c->get( Request::class )->get_post_type_to_export() );
+					function ( Request $request ) {
+						$data_builder = new Data_Builder_For_WP_Posts( $request->get_post_type_to_export() );
 
 						/**
 						 * Fires after data generator is created, but before export.
