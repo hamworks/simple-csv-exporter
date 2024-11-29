@@ -42,8 +42,12 @@ class Container_Factory {
 					}
 				),
 				CSV_Writer::class   => factory(
-					function () {
-						$csv_writer = new CSV_Writer();
+					function ( Request $request ) {
+						if ( $request->get_encoding() === Encodings::UTF8_WITH_BOM['name'] ) {
+							$csv_writer = new CSV_Writer_With_BOM();
+						} else {
+							$csv_writer = new CSV_Writer();
+						}
 
 						/**
 						 * Fires after data generator is created, but before export.
