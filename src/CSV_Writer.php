@@ -60,14 +60,14 @@ class CSV_Writer {
 		$this->write();
 	}
 
-
 	/**
-	 * Render CSV to Standard IO.
+	 * Put Contents
+	 *
+	 * @param resource $file_pointer
+	 *
+	 * @return void
 	 */
-	public function write() {
-		// phpcs:ignore
-		$file_pointer = fopen( $this->file_name, 'w' );
-
+	protected function put( $file_pointer ) {
 		$header_rendered = false;
 		foreach ( $this->rows as $row ) {
 			if ( ! $header_rendered ) {
@@ -76,6 +76,20 @@ class CSV_Writer {
 			}
 			fputcsv( $file_pointer, $row );
 		}
+	}
+
+	/**
+	 * Write CSV
+	 *
+	 * @throws \Exception
+	 */
+	public function write() {
+		// phpcs:ignore
+		$file_pointer = fopen( $this->file_name, 'w' );
+		if ( ! $file_pointer ) {
+			throw new \Exception( 'Could not open file.' );
+		}
+		$this->put( $file_pointer );
 		// phpcs:ignore
 		fclose( $file_pointer );
 	}
