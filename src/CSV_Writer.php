@@ -57,21 +57,19 @@ class CSV_Writer {
 		if ( ! $this->file_name || ! $this->rows ) {
 			throw new \Exception( 'File name or rows are not set.' );
 		}
-		$this->write( $this->rows );
+		$this->write();
 	}
 
 
 	/**
 	 * Render CSV to Standard IO.
-	 *
-	 * @param iterable $data
 	 */
-	public function write( iterable $data ) {
+	public function write() {
 		// phpcs:ignore
 		$file_pointer = fopen( $this->file_name, 'w' );
 
 		$header_rendered = false;
-		foreach ( $data as $row ) {
+		foreach ( $this->rows as $row ) {
 			if ( ! $header_rendered ) {
 				fputcsv( $file_pointer, array_keys( $row ) );
 				$header_rendered = true;
