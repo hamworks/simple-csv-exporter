@@ -25,22 +25,28 @@ class Admin_UI {
 	private Request $request;
 
 	/**
+	 * @var Encodings
+	 */
+	private Encodings $encodings;
+
+	/**
 	 * Admin_UI constructor.
 	 *
 	 * @param string $slug Slug for admin page.
 	 * @param Request $request
 	 * @param Nonce $nonce
 	 */
-	public function __construct( string $slug, Request $request, Nonce $nonce ) {
+	public function __construct( string $slug, Request $request, Nonce $nonce, Encodings $encodings ) {
 		add_action(
 			'admin_menu',
 			function () {
 				$this->register();
 			}
 		);
-		$this->slug    = $slug;
-		$this->nonce   = $nonce;
-		$this->request = $request;
+		$this->slug      = $slug;
+		$this->nonce     = $nonce;
+		$this->request   = $request;
+		$this->encodings = $encodings;
 	}
 
 	/**
@@ -119,12 +125,11 @@ class Admin_UI {
 								<select
 									id="<?php echo esc_attr( $this->request::ENCODING ); ?>"
 									name="<?php echo esc_attr( $this->request::ENCODING ); ?>">
-									<option value="UTF-8">
-										<?php esc_html_e( 'UTF-8', 'simple-csv-exporter' ); ?>
-									</option>
-									<option value="UTF-8_with_BOM">
-										<?php esc_html_e( 'UTF-8 with BOM', 'simple-csv-exporter' ); ?>
-									</option>
+									<?php foreach ( $this->encodings->get_items() as $encoding ) : ?>
+										<option value="<?php echo esc_attr( $encoding['name'] ); ?>">
+											<?php echo esc_html( $encoding['value'] ); ?>
+										</option>
+									<?php endforeach; ?>
 								</select>
 							</td>
 						</tr>
