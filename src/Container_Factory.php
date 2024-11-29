@@ -26,15 +26,10 @@ class Container_Factory {
 		$builder = new ContainerBuilder();
 		$builder->addDefinitions(
 			array(
-				'var.post_type_to_export' => 'post_type_to_export',
-				'var.encoding'            => 'encoding',
-				'post_type'               => function ( ContainerInterface $c ) {
-					return filter_input( INPUT_POST, $c->get( 'var.post_type_to_export' ), FILTER_SANITIZE_SPECIAL_CHARS ) ?? '';
-				},
-				Nonce::class              => create()->constructor( $slug ),
-				Data_Builder::class       => factory(
-					function ( $post_type ) {
-						$data_builder = new Data_Builder_For_WP_Posts( $post_type );
+				Nonce::class        => create()->constructor( $slug ),
+				Data_Builder::class => factory(
+					function ( ContainerInterface $c ) {
+						$data_builder = new Data_Builder_For_WP_Posts( $c->get( Request::class )->get_post_type_to_export() );
 
 						/**
 						 * Fires after data generator is created, but before export.
@@ -42,24 +37,26 @@ class Container_Factory {
 						 * @param Data_Builder $data
 						 */
 						do_action( 'simple_csv_exporter_created_data_builder', $data_builder );
+
 						return $data_builder;
 					}
-				)->parameter( 'post_type', get( 'post_type' ) ),
-				CSV_Writer::class         => factory(
+				),
+				CSV_Writer::class   => factory(
 					function () {
 						$csv_writer = new CSV_Writer();
 
 						/**
 						 * Fires after data generator is created, but before export.
 						 *
-						 * @param Data_Builder $data
+						 * @param CSV_Writer $csv_writer
 						 */
 						do_action( 'simple_csv_exporter_created_csv_writer', $csv_writer );
+
 						return $csv_writer;
 					}
 				),
-				Admin_UI::class           => autowire()->constructor( $slug ),
-				Exporter::class           => autowire(),
+				Admin_UI::class     => autowire()->constructor( $slug ),
+				Exporter::class     => autowire(),
 			)
 		);
 
