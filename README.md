@@ -83,6 +83,7 @@ add_filter(
 
 ### 3.0.0
 * Add support UTF-8 with BOM.
+* Refactor code.
 
 ### 2.2.0
 * Add `simple_csv_exporter_data_builder_for_wp_posts_get_the_terms_field` filter.
